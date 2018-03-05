@@ -14,3 +14,8 @@
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/', 'HomeController@index');
+
+Route::get('/subjects', 'SubjectController@index');
+Route::get('/attendances', 'SubjectController@index');
+Route::get('/announcements', 'SubjectController@index');
+Route::get('/students', 'SubjectController@index');
