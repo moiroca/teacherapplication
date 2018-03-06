@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
+use App\Models\Quiz;
 use App\Models\Subject;
 
 class QuizController extends Controller
@@ -18,6 +19,14 @@ class QuizController extends Controller
         $this->middleware('auth');
     }
 
+    public function index(Request $request)
+    {
+    	$subjects = Subject::where('teacher_id', Auth::user()->id)->get()->pluck('id');
+    	$quizzes = Quiz::with('subject')->whereIn('id', $subjects)->get();
+
+    	return view('quiz.index', compact('quizzes'));
+    }
+
     public function create(Request $request)
     {
     	$subjects = Subject::where('teacher_id', Auth::user()->id)->get();
@@ -28,14 +37,14 @@ class QuizController extends Controller
     public function save(Request $request)
     {
     	try {
-    		Subject::create([
-	    		'name'			=> $request->get('name'),
-	    		'teacher_id'	=> $request->get('teacher_id')
+    		$quiz = Quiz::create([
+	    		'title'			=> $request->get('title'),
+	    		'subject_id'	=> $request->get('subject_id')
 	    	]);
 
-	    	return redirect()->route('quiz.create')->with('isSuccess', true);
+	    	return redirect()->route('quiz.items.create', [ 'quiz_id' => $quiz->id ])->with('isSuccess', true);
     	} catch (\Exception $e) {
-    		return redirect()->route('quiz.create')->with('isSuccess', false);
+    		return redirect()->route('quiz.items.create', [ 'quiz_id' => $quiz->id ])->with('isSuccess', false);
     	}
     }
 }

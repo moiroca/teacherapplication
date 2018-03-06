@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title>Gentellela Alela! | </title>
+    <title> {{ config('app.name') }} </title>
     
     <!-- Bootstrap -->
     <link href="{{ asset("css/bootstrap.min.css") }}" rel="stylesheet">
@@ -25,7 +25,7 @@
             <section class="login_content">
 				{!! BootForm::open(['url' => url('/login'), 'method' => 'post']) !!}
                     
-				<h1>Login Form</h1>
+				<h3>{{ config('app.name') }} Login</h3>
 			
 				{!! BootForm::email('email', 'Email', old('email'), ['placeholder' => 'Email', 'afterInput' => '<span>test</span>'] ) !!}
 			
@@ -39,17 +39,11 @@
 				<div class="clearfix"></div>
                     
 				<div class="separator">
-					<p class="change_link">New to site?
+					<p class="change_link">New to {{ config('app.name') }}?
 						<a href="{{ url('/register') }}" class="to_register"> Create Account </a>
 					</p>
                         
 					<div class="clearfix"></div>
-					<br />
-                        
-					<div>
-						<h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-						<p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
-					</div>
 				</div>
 				{!! BootForm::close() !!}
             </section>

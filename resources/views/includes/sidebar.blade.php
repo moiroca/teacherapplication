@@ -1,7 +1,7 @@
 <div class="col-md-3 left_col">
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
-            <a href="{{ url('/') }}" class="site_title"><i class="fa fa-paw"></i> <span>{{ config('app.name') }}</span></a>
+            <a href="{{ url('/') }}" class="site_title"><i class="fa fa-home"></i> <span>MCA</span></a>
         </div>
         
         <div class="clearfix"></div>
@@ -31,28 +31,21 @@
                             <!-- <span class="label label-success pull-right">Flag</span> -->
                         </a>
                     </li>
-                    <li>
+                   <!--  <li>
                         <a href="javascript:void(0)">
                             <i class="fa fa-laptop"></i>
                             Attendance Management
-                            <!-- <span class="label label-success pull-right">Flag</span> -->
+                            <span class="label label-success pull-right">Flag</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li><a><i class="fa fa-home"></i> Quiz Management <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="#">Create Quizzes</a></li>
-                            <li><a href="#">View Quiz Results</a></li>
+                            <li><a href="{{ route('quiz.index') }}">Quizzes</a></li>
+                            <!-- <li><a href="#">View Quiz Results</a></li> -->
                         </ul>
                     </li>
                     <li>
-                        <a href="javascript:void(0)">
-                            <i class="fa fa-laptop"></i>
-                            Student Management
-                            <!-- <span class="label label-success pull-right">Flag</span> -->
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)">
+                        <a href="{{ route('subject.index') }}">
                             <i class="fa fa-laptop"></i>
                             Subject Management
                             <!-- <span class="label label-success pull-right">Flag</span> -->
@@ -64,7 +57,7 @@
         <!-- /sidebar menu -->
         
         <!-- /menu footer buttons -->
-        <div class="sidebar-footer hidden-small">
+        <!-- <div class="sidebar-footer hidden-small">
             <a data-toggle="tooltip" data-placement="top" title="Settings">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
             </a>
@@ -77,7 +70,7 @@
             <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{ url('/logout') }}">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
             </a>
-        </div>
+        </div> -->
         <!-- /menu footer buttons -->
     </div>
 </div>
