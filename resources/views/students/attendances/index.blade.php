@@ -9,44 +9,35 @@
 
     <!-- page content -->
     <div class="right_col" role="main">
-        <h6>Your {{ $quiz->title }} Quiz Score</h6> 
-        <br/>
+        <h6>{{ $subject->name }} Attendances</h6> 
         <br/>
         <table class="table">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Question</th>
-                    <th>Answer</th>
+                    <th>Date</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($studentQuizAnswers as $index => $quizItem)
+                @foreach($studenStubjectAttendances as $index => $attendance)
                     <tr>
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ $quizItem->question }}</td>
+                        <td>{{ $attendance->date }}</td>
                         <td>
-                            @if( $quizItem->is_correct )
+                            @if( $attendance->is_present )
                                 <span class="label label-success">
-                                    <?php $score += 1; ?>
-                                    {{ $quizItem->content }}
+                                    <i class="fa fa-smile-o"></i> Present
                                 </span>
                             @else
                                 <span class="label label-danger">
-                                    {{ $quizItem->content }}
+                                    <i class="fa fa-frown-o"></i> Absent
                                 </span>
                             @endif
                         </td>
+
                     </tr>
                 @endforeach
-                <tr>
-                    <td colspan="2">
-                        <span class='pull-right'><strong>Your Score:</strong></span>
-                    </td>
-                    <td>
-                        <span>{{ round($score/$studentQuizAnswers->count() * 100) }}%</span>
-                    </td>
-                </tr>
             </tbody>
         </table>
     </div>

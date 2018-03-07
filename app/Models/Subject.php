@@ -24,4 +24,9 @@ class Subject extends Model
     {
         return $this->hasMany(Quiz::class);
     }
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class, 'subject_id');
+    }
 }

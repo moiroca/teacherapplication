@@ -75,14 +75,45 @@ class QuizController extends Controller
     {
         // Get All Student Quiz Answers
         $studentQuiz = StudentQuiz::find($student_quiz_id);
-        $studentQuizAnswers = StudentQuizAnswer::where('student_quiz_id', $student_quiz_id)->get();
-
-        // Get All Quiz Items
-        $quizItems = QuizItem::where('quiz_id', $studentQuiz->quiz_id)->get();
-
         $quiz = Quiz::find($studentQuiz->quiz_id);
+
+        $studentQuizAnswers = \DB::table(\DB::raw('(
+                select
+                    quiz_items.quiz_id, 
+                    quiz_items.id as quiz_item_id, 
+                    quiz_items.question,
+                    quiz_options.id as correct_answer,
+                    quiz_options.content as content
+                from
+                    quiz_items
+                left join
+                    quiz_options on quiz_items.id = quiz_options.quiz_item_id 
+                where
+                    quiz_options.is_correct = 1 
+                and 
+                    quiz_items.quiz_id = ' . $quiz->id . '
+                group by quiz_items.id 
+            ) as question_answers'))
+            ->selectRaw('
+                question_answers.quiz_id, 
+                question_answers.quiz_item_id, 
+                question_answers.question, 
+                question_answers.correct_answer,
+                question_answers.content,
+                student_quiz_answers.quiz_option_id,
+                if(question_answers.correct_answer = student_quiz_answers.quiz_option_id, true, false) as is_correct
+            ')
+            ->leftJoin(
+                    'student_quiz_answers', 
+                    'student_quiz_answers.quiz_item_id', 
+                    '=', 
+                    'question_answers.quiz_item_id')
+            ->where('student_quiz_answers.student_quiz_id', $student_quiz_id)
+            ->get();
+
         $score = 0;
-        return view('students.quizzes.score', compact('quizItems', 'studentQuizAnswers', 'quiz', 'score'));
+        
+        return view('students.quizzes.score', compact('studentQuizAnswers', 'quiz', 'score'));
     }
 
     private function saveStudentQuiz($quiz_id)

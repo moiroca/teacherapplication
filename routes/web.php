@@ -96,7 +96,7 @@ Route::group(['prefix' => "subjects"], function () {
 
 Route::group([ 'prefix' => 'students'], function () {
 
-	Route::get('/attendances', [
+	Route::get('/attendances/{subject_id}', [
 		'as'	=> 'students.attendances',
 		'uses'	=> 'Student\AttendanceController@index'
 	]);

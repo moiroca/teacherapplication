@@ -24,7 +24,7 @@
                         <th scope="row">{{ $index + 1 }}</th>
                         <td>{{ $subject->name }}</td>
                         <td>
-                            <a href="{{ route('students.attendances') }}"><i class='fa fa-bar-chart'></i> View Attendance</a> | 
+                            <a href="{{ route('students.attendances', ['subject_id' => $subject->id]) }}"><i class='fa fa-bar-chart'></i> View Attendance</a> | 
                             <a href="{{ route('students.quizzes', ['subject_id' => $subject->id]) }}"><i class='fa fa-file-text'></i> View Quizzes</a>
                         </td>
                     </tr>
