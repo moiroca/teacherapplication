@@ -6,7 +6,9 @@ use Illuminate\Console\Command;
 use App\Models\Quiz;
 use App\Models\Student;
 use App\Models\Subject;
+use App\Models\User;
 use App\Models\Teacher;
+use Faker\Generator;
 
 class ModelSeeders extends Command
 {
@@ -29,9 +31,10 @@ class ModelSeeders extends Command
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Generator $faker)
     {
         parent::__construct();
+        $this->faker = $faker;
     }
 
     /**
@@ -41,37 +44,74 @@ class ModelSeeders extends Command
      */
     public function handle()
     {
-        // $this->seedTeachers();
-        // $this->seedStudents();
-        // $this->seedSubjects();
-        // $this->seedQuiz();
+        $this->seedTeachers();
+        $this->seedStudents();
+        $this->seedSubjects();
     }
 
-    private function seedTeachers()
+    private function seedTeachers($count = 10)
     {
-        factory(Teacher::class, 10)->create();
+        // Default Teacher
+        User::create([
+            'name' => 'John Doe',
+            'email' => 'john.doe@example.com',
+            'role'  => 1,
+            'password' => bcrypt('password'),
+        ]);
 
-        echo "10 Teachers Seeded\n";
+        for ($i=1; $i <= $count; $i++) { 
+            User::create([
+                'name' => $this->faker->name,
+                'email' => $this->faker->safeEmail,
+                'role'  => 1,
+                'password' => bcrypt('password'),
+            ]);
+            echo '.';
+        }
+
+        echo "\n Teachers Seeded\n";
     }
 
-    private function seedStudents()
+    private function seedStudents($count = 10)
     {
-        factory(Student::class, 10)->create();
+        // Default Student
+        User::create([
+            'name' => 'Mike Gibson',
+            'email' => 'mike.gibson@example.com',
+            'role'  => 2,
+            'password' => bcrypt('password'),
+        ]);
 
-        echo "10 Students Seeded\n";
+        for ($i=1; $i <= $count; $i++) { 
+            User::create([
+                'name' => $this->faker->name,
+                'email' => $this->faker->safeEmail,
+                'role'  => 2,
+                'password' => bcrypt('password'),
+            ]);
+            echo '.';
+        }
+
+        echo "\n Students Seeded\n";
     }
 
-    private function seedSubjects()
+    private function seedSubjects($count = 5)
     {
-        factory(Subject::class, 10)->create();
+        // Seed Only First 10 Teachers
+        $teachers = User::where('role', 1)->limit(10)->get();
 
-        echo "10 Subjects Seeded\n";
-    }
+        $subjectTitle = ['Programming', 'IT Elective', 'Database Management', 'Linux Administration'];
 
-    private function seedQuiz()
-    {
-        factory(Quiz::class, 10)->create();
+        foreach ($teachers as $key => $teacher) {
+            for ($i=0; $i < $count; $i++) { 
+                Subject::create([
+                    'name' => $subjectTitle[rand(0,3)] . ' ' . ($i + 1),
+                    'teacher_id' => $teacher->id
+                ]);
+                echo '.';
+            }
+        }
 
-        echo "10 quizzes Seeded\n";
+        echo "\n Teacher Subjects Seeded\n";
     }
 }
