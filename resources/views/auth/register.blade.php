@@ -34,8 +34,10 @@
 
 			{!! BootForm::password('password_confirmation', 'Password confirmation', ['placeholder' => 'Confirmation']) !!}
 		
+		   	{!! BootForm::select('role', 'Are you a?', [1 => 'Teacher', 2 => 'Student'], 1) !!}
+
 			{!! BootForm::submit('Register', ['class' => 'btn btn-default']) !!}
-		   
+
 			<div class="clearfix"></div>
 			
 			<div class="separator">

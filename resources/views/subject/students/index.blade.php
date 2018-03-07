@@ -12,6 +12,9 @@
         <div class='col-md-12'>
             <h4 class='pull-left'> {{ $subject->name }}</h4>
             
+            <a  class="btn btn-danger btn-sm pull-right" href="{{ route('enrollment.subject', ['subject_id' => $subject_id]) }}">
+                <i class='fa fa-institution'></i> Enroll Student
+            </a>
             <a  class="btn btn-primary btn-sm pull-right" href="{{ route('subject.students.attendance.index', ['subject_id' => $subject_id]) }}">
                 <i class='fa fa-plus'></i> View Attendance
             </a>
@@ -31,7 +34,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($subjectStudents as $index => $subjectStudent)
+                @forelse($subjectStudents as $index => $subjectStudent)
                     <tr>
                         <td scope="row">{{ $index + 1 }}</td>
                         <td>{{ $subjectStudent->student->name }}</td>
@@ -41,7 +44,17 @@
                             <a href="#"><i class='fa fa-trash'></i></a>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="4">
+                            <div class="alert alert-info alert-dismissible fade in" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <strong>No Subject Enrolled!</strong> Ask your teacher to enroll you in a subject.
+                            </div>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

@@ -126,3 +126,15 @@ Route::group([ 'prefix' => 'students'], function () {
 		'uses'	=> 'Student\SubjectController@index'
 	]);
 });
+
+Route::group(['prefix' => 'enrollment'], function () {
+	Route::get('/{subject_id}', [
+		'as'	=> 'enrollment.subject',
+		'uses'	=> 'EnrollmentController@create'
+	]);
+
+	Route::post('/{subject_id}', [
+		'as'	=> 'enrollment.subject.save',
+		'uses'	=> 'EnrollmentController@save'
+	]);
+});

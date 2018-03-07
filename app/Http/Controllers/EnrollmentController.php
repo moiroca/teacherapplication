@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Subject;
+use App\Models\SubjectStudent;
+
+class EnrollmentController extends Controller
+{
+	public function create(Request $request, $subject_id)
+	{
+		$subject = Subject::find($subject_id);
+
+		$students = \DB::table('users')
+					->selectRaw('
+						users.id, 
+						users.email, 
+						users.name, 
+						count(student_subjects.subject_id) as is_enrolled
+					')
+					->leftJoin(\DB::raw('(
+						(SELECT * from student_subjects where student_subjects.subject_id = ' . $subject->id . ') as student_subjects 
+					)'), 'student_subjects.student_id', '=', 'users.id')
+					->where('users.role', 2)
+					->groupBy('users.id')
+					->get();
+
+		return view('enrollments.subject', compact('subject', 'students'));
+	}
+
+	public function save(Request $request, $subject_id)
+	{
+		$student_id = $request->get('student_id');
+
+		SubjectStudent::create([
+			'subject_id' => $subject_id,
+			'student_id' => $student_id
+		]);
+
+		return redirect()->route('enrollment.subject', [ 'subject_id' => $subject_id ]);
+	}
+}
