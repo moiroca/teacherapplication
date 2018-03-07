@@ -19,7 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($subject->quizzes as $index => $quiz)
+                @forelse($subject->quizzes as $index => $quiz)
                     <tr>
                         <th scope="row">{{ $index + 1 }}</th>
                         <td>{{ $quiz->title }}</td>
@@ -28,7 +28,17 @@
                             <a href="{{ route('students.quizzes.take', ['quiz_id' => $quiz->id]) }}"><i class='fa fa-bar-chart'></i> View Score</a>
                         </td>
                     </tr>
-                @endforeach
+                 @empty
+                    <tr>
+                        <td colspan="3">
+                            <div class="alert alert-info alert-dismissible fade in" role="alert">
+                                <button type="submit" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <strong>Not Quiz Found!</strong> Ask your teacher if this is correct.
+                            </div>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

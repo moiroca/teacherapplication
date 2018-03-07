@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($studenStubjectAttendances as $index => $attendance)
+                @forelse($studenStubjectAttendances as $index => $attendance)
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $attendance->date }}</td>
@@ -37,7 +37,17 @@
                         </td>
 
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="3">
+                            <div class="alert alert-info alert-dismissible fade in" role="alert">
+                                <button type="submit" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <strong>Not Attendance Found!</strong> Ask your teacher if this is correct.
+                            </div>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

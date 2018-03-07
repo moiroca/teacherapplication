@@ -9,7 +9,7 @@
 
     <!-- page content -->
     <div class="right_col" role="main">
-        <h3>Create {{ $quiz->title }} Items</h3>
+        <h3>Create {{ $quiz->title }} Questions</h3>
         <br/>
         <div class="clearfix"></div>
         <div class="col-md-6">
@@ -51,7 +51,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($quiz->items as $index => $item)
+                    @forelse($quiz->items as $index => $item)
                         <tr>
                             <td>{{ $index + 1 }}</td>
                             <td>
@@ -69,7 +69,17 @@
                                 </ol>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="2">
+                                <div class="alert alert-info alert-dismissible fade in" role="alert">
+                                    <button type="submit" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <strong>Quiz has not questions yet!</strong> You can add questions on the right side.
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
