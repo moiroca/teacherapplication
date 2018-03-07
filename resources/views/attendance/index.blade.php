@@ -18,7 +18,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($attendances as $index => $attendance)
+                @forelse($attendances as $index => $attendance)
                     <tr>
                         <th scope="row">{{ $index + 1 }}</th>
                         <td>
@@ -31,7 +31,17 @@
                         </td>
                         <td>{{ $attendance->inattendance->count() }}</td>
                     </tr>
-                @endforeach
+                 @empty
+                    <tr>
+                        <td colspan="3">
+                            <div class="alert alert-info alert-dismissible fade in" role="alert">
+                                <button type="submit" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <strong>Not Attendance Found!</strong> You can create attendance when you choose a subject.
+                            </div>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

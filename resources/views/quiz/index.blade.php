@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($quizzes as $index => $quizz)
+                @forelse($quizzes as $index => $quizz)
                     <tr>
                         <th scope="row">{{ $index + 1 }}</th>
                         <td><a href="{{ route('quiz.items.create', $quizz->id) }}">{{ $quizz->title }}</a></td>
@@ -30,7 +30,17 @@
                             <a href="#"><i class='fa fa-trash'></i></a>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="4">
+                            <div class="alert alert-info alert-dismissible fade in" role="alert">
+                                <button type="submit" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <strong>No Quiz Found!</strong> You can create quiz by clicking "Create Quiz" button above.
+                            </div>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

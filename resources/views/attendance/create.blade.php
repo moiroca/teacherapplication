@@ -32,7 +32,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($subjectStudents as $index => $subjectStudent)
+                        @forelse($subjectStudents as $index => $subjectStudent)
                             <tr>
                                 <td>
                                     <input 
@@ -43,7 +43,17 @@
                                 <td>{{ $subjectStudent->student->name }}</td>
                                 <td>{{ $subjectStudent->student->email }}</td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="3">
+                                    <div class="alert alert-info alert-dismissible fade in" role="alert">
+                                        <button type="submit" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                        </button>
+                                        <strong>Not Student Found!</strong> You can enroll student when choosing subject.
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
