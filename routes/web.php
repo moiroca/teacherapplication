@@ -13,7 +13,11 @@
 
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout');
-Route::get('/', 'HomeController@index');
+
+Route::get('/', [
+	'as'	=> 'dashboard',
+	'uses'	=> 'HomeController@index'
+]);
 
 Route::get('/announcements', 'SubjectController@index');
 
@@ -86,5 +90,39 @@ Route::group(['prefix' => "subjects"], function () {
 	Route::post('/create', [
 		'as'	=> 'subject.save',
 		'uses'	=> 'SubjectController@save'
+	]);
+});
+
+
+Route::group([ 'prefix' => 'students'], function () {
+
+	Route::get('/attendances', [
+		'as'	=> 'students.attendances',
+		'uses'	=> 'Student\AttendanceController@index'
+	]);
+
+	Route::get('/quizzes/{subject_id}', [
+		'as'	=> 'students.quizzes',
+		'uses'	=> 'Student\QuizController@index'
+	]);
+
+	Route::get('/quizzes/{quiz_id}/take', [
+		'as'	=> 'students.quizzes.take',
+		'uses'	=> 'Student\QuizController@take'
+	]);
+
+	Route::post('/quizzes/{quiz_id}/answer', [
+		'as'	=> 'students.quizzes.answer',
+		'uses'	=> 'Student\QuizController@answer'
+	]);
+
+	Route::get('/quizzes/{student_quiz_id}/score', [
+		'as'	=> 'students.quizzes.score',
+		'uses'	=> 'Student\QuizController@score'
+	]);
+
+	Route::get('/subjects', [
+		'as'	=> 'students.subjects',
+		'uses'	=> 'Student\SubjectController@index'
 	]);
 });

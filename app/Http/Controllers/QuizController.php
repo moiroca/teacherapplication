@@ -22,7 +22,7 @@ class QuizController extends Controller
     public function index(Request $request)
     {
     	$subjects = Subject::where('teacher_id', Auth::user()->id)->get()->pluck('id');
-    	$quizzes = Quiz::with('subject')->whereIn('id', $subjects)->get();
+    	$quizzes  = Quiz::with('subject')->whereIn('id', $subjects)->get();
 
     	return view('quiz.index', compact('quizzes'));
     }
@@ -30,7 +30,6 @@ class QuizController extends Controller
     public function create(Request $request)
     {
     	$subjects = Subject::where('teacher_id', Auth::user()->id)->get();
-
     	return view('quiz.create', compact('subjects'));
     }
 

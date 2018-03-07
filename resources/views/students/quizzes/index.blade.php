@@ -9,10 +9,8 @@
 
     <!-- page content -->
     <div class="right_col" role="main">
-        <a  class="btn btn-primary btn-sm" href="{{ route('subject.create') }}"><i class='fa fa-plus'></i> Create Subject</a>
-        <br/>
-        <br/>
-    	<table class="table">
+        <h6>Subjects Quizzes</h6>
+        <table class="table">
             <thead>
                 <tr>
                     <th>#</th>
@@ -21,13 +19,13 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($subjects as $index => $subject)
+                @foreach($subject->quizzes as $index => $quiz)
                     <tr>
                         <th scope="row">{{ $index + 1 }}</th>
-                        <td><a href="{{ route('subject.students', $subject->id) }}">{{ $subject->name }}</a></td>
+                        <td>{{ $quiz->title }}</td>
                         <td>
-                            <a href="#"><i class='fa fa-edit'></i></a> | 
-                            <a href="#"><i class='fa fa-trash'></i></a>
+                            <a href="{{ route('students.quizzes.take', ['quiz_id' => $quiz->id]) }}"><i class='fa fa-bomb'></i> Take Quiz</a> | 
+                            <a href="{{ route('students.quizzes.take', ['quiz_id' => $quiz->id]) }}"><i class='fa fa-bar-chart'></i> View Score</a>
                         </td>
                     </tr>
                 @endforeach

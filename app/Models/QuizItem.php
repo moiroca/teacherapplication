@@ -24,4 +24,9 @@ class QuizItem extends Model
     {
     	return $this->hasMany(QuizOption::class, 'quiz_item_id');
     }
+
+    public function correctOption()
+    {
+        return $this->options->where('is_correct', 1)->first();
+    }
 }

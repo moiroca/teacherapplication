@@ -14,8 +14,9 @@ class CreateStudentQuizAnswers extends Migration {
 	{
 		Schema::create('student_quiz_answers', function (Blueprint $table) {
 			$table->increments('id');
+			$table->unsignedInteger('student_quiz_id');
 			$table->unsignedInteger('quiz_item_id');
-			$table->unsignedInteger('option_id');
+			$table->unsignedInteger('quiz_option_id');
 		});
 	}
 

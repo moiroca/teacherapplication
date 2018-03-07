@@ -3,25 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
 
-class Subject extends Model
+class StudentQuiz extends Model
 {
-    protected $table = 'subjects';
-    
+    protected $table = 'student_quizzes'; 
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'teacher_id'
+        'student_id', 'quiz_id'
     ];
 
     public $timestamps = false;
-
-    public function quizzes()
-    {
-        return $this->hasMany(Quiz::class);
-    }
 }
