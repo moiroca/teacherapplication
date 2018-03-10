@@ -9,7 +9,6 @@
 
     <!-- page content -->
     <div class="right_col" role="main">
-        <a  class="btn btn-primary btn-sm" href="{{ route('subject.create') }}"><i class='fa fa-plus'></i> Create Subject</a>
         <br/>
         <br/>
     	<table class="table">

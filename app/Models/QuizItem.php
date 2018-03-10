@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class QuizItem extends Model
 {
+    const   IDENTIFICATION = 1,
+            MULTIPLE_CHOICE = 2;
+            
     protected $table = 'quiz_items';
 
     /**
@@ -14,7 +17,7 @@ class QuizItem extends Model
      * @var array
      */
     protected $fillable = [
-        'quiz_id', 'question'
+        'question', 'quiz_item_type'
     ];
 
     public $timestamps = false;

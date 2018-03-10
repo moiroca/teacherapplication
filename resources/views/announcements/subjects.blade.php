@@ -9,9 +9,7 @@
 
     <!-- page content -->
     <div class="right_col" role="main">
-        <a  class="btn btn-primary btn-sm" href="{{ route('subject.create') }}"><i class='fa fa-plus'></i> Create Subject</a>
-        <br/>
-        <br/>
+        <h6>Announcements</h6>
     	<table class="table">
             <thead>
                 <tr>
@@ -27,10 +25,8 @@
                         <td><a href="{{ route('subject.students', $subject->id) }}">{{ $subject->name }}</a></td>
                         <td>
                             <a href="{{ route('modules.subject.index', ['subject_id' => $subject->id]) }}"> 
-                                <i class='fa fa-bullhorn'></i>
-                            </a> | 
-                            <a href="#"><i class='fa fa-edit'></i></a> | 
-                            <a href="#"><i class='fa fa-trash'></i></a>
+                                <i class='fa fa-bullhorn'></i> View Announcements
+                            </a>
                         </td>
                     </tr>
                 @endforeach

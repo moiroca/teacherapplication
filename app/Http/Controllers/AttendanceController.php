@@ -23,7 +23,7 @@ class AttendanceController extends Controller
 		$subjectStudents = SubjectStudent::with('student')
     								->where('subject_id', $attendance->subject_id)
     								->get();
-
+                                    
     	$studentAttendance = StudentAttendance::where('attendance_id', $attendance->id)->get()->pluck('student_id');
 
 		return view('attendance.show', [

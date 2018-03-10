@@ -17,7 +17,8 @@
                 <tr>
                     <th>#</th>
                     <th>Question</th>
-                    <th>Answer</th>
+                    <th>Correct Answer</th>
+                    <th>Your Answer</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,10 +38,11 @@
                                 </span>
                             @endif
                         </td>
+                        <td>{{ $quizItem->answer }}</td>
                     </tr>
                 @endforeach
                 <tr>
-                    <td colspan="2">
+                    <td colspan="3">
                         <span class='pull-right'><strong>Your Score:</strong></span>
                     </td>
                     <td>

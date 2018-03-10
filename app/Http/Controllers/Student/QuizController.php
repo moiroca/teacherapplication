@@ -47,7 +47,12 @@ class QuizController extends Controller
         $answeredQuizItems = StudentQuizAnswer::where('student_quiz_id', $studentQuiz->id)->get()->pluck('quiz_item_id');
 
         // Fetch Not Answered Quiz Item
-        $currentQuizItem   = QuizItem::where('quiz_id', $quiz->id)->whereNotIn('id', $answeredQuizItems->toArray())->first();
+        $currentQuizItem   = QuizItem::where('quiz_items_pivot.quiz_id', $quiz->id)
+                                        ->select('quiz_items.id','quiz_items.question','quiz_items.quiz_item_type')
+                                        ->join('quiz_items_pivot', 'quiz_items_pivot.item_id', '=', 'quiz_items.id')
+                                        ->where('quiz_items_pivot.quiz_id', $quiz->id)
+                                        ->whereNotIn('quiz_items.id', $answeredQuizItems->toArray())
+                                        ->first();
 
         if (empty($currentQuizItem)) {
             return redirect()->route('students.quizzes.score', ['student_quiz_id' => $studentQuiz->id]);
@@ -61,12 +66,22 @@ class QuizController extends Controller
         $studentQuizId  = $request->get('student_quiz_id');
         $quizOptionId   = $request->get('quiz_option_id');
         $quizItemId     = $request->get('quiz_item_id');
+        $answer         = $request->get('answer');
 
-        StudentQuizAnswer::create([
+        $quizItem = QuizItem::find($quizItemId);
+
+        $studentAnswer = [
             'student_quiz_id'   => $studentQuizId,
-            'quiz_option_id'    => $quizOptionId,
             'quiz_item_id'      => $quizItemId
-        ]);
+        ];
+
+        if ($quizItem->quiz_item_type == QuizItem::IDENTIFICATION) {
+            $studentAnswer['answer']    = $answer;
+        } else {
+            $studentAnswer['answer']    = $quizOptionId;
+        }
+
+        StudentQuizAnswer::create($studentAnswer);
 
         return redirect()->route('students.quizzes.take', ['quiz_id' => $quiz_id]);
     }
@@ -79,20 +94,33 @@ class QuizController extends Controller
 
         $studentQuizAnswers = \DB::table(\DB::raw('(
                 select
-                    quiz_items.quiz_id, 
-                    quiz_items.id as quiz_item_id, 
+                    quiz_items_pivot.quiz_id,
+                    quiz_items.id as quiz_item_id,
+                    quiz_items.question,
+                    quiz_options.content as correct_answer,
+                    quiz_options.content as content
+                from quiz_items
+                left join quiz_options on quiz_items.id = quiz_options.quiz_item_id
+                join quiz_items_pivot on quiz_items_pivot.item_id = quiz_items.id 
+                where quiz_options.is_correct = 1
+                and quiz_items.quiz_item_type = 1
+                and quiz_items_pivot.quiz_id = ' . $quiz->id . '
+                group by quiz_items.id
+
+                UNION
+
+                select
+                    quiz_items_pivot.quiz_id,
+                    quiz_items.id as quiz_item_id,
                     quiz_items.question,
                     quiz_options.id as correct_answer,
                     quiz_options.content as content
-                from
-                    quiz_items
-                left join
-                    quiz_options on quiz_items.id = quiz_options.quiz_item_id 
-                where
-                    quiz_options.is_correct = 1 
-                and 
-                    quiz_items.quiz_id = ' . $quiz->id . '
-                group by quiz_items.id 
+                from quiz_items
+                left join quiz_options on quiz_items.id = quiz_options.quiz_item_id
+                join quiz_items_pivot on quiz_items_pivot.item_id = quiz_items.id 
+                where quiz_options.is_correct = 1
+                and quiz_items.quiz_item_type = 2
+                and quiz_items_pivot.quiz_id = ' . $quiz->id . '
             ) as question_answers'))
             ->selectRaw('
                 question_answers.quiz_id, 
@@ -100,8 +128,8 @@ class QuizController extends Controller
                 question_answers.question, 
                 question_answers.correct_answer,
                 question_answers.content,
-                student_quiz_answers.quiz_option_id,
-                if(question_answers.correct_answer = student_quiz_answers.quiz_option_id, true, false) as is_correct
+                student_quiz_answers.answer,
+                if(question_answers.correct_answer = student_quiz_answers.answer, true, false) as is_correct
             ')
             ->leftJoin(
                     'student_quiz_answers', 

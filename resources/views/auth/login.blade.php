@@ -31,11 +31,9 @@
 			
 				{!! BootForm::password('password', 'Password', ['placeholder' => 'Password']) !!}
 				
-				<div>
-					{!! BootForm::submit('Log in', ['class' => 'btn btn-default submit']) !!}
-					<a class="reset_pass" href="{{  url('/password/reset') }}">Lost your password ?</a>
-				</div>
-                    
+                <div class="form-group">
+                	<button class="btn btn-default col-md-12 col-offset-0" type="submit"><i class='fa fa-lock'></i> Login</button>
+                </div>
 				<div class="clearfix"></div>
                     
 				<div class="separator">
@@ -45,6 +43,7 @@
                         
 					<div class="clearfix"></div>
 				</div>
+				
 				{!! BootForm::close() !!}
             </section>
         </div>

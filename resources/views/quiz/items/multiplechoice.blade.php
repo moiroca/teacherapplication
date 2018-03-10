@@ -75,7 +75,7 @@
                                 <div class="alert alert-info alert-dismissible fade in" role="alert">
                                     <button type="submit" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                                     </button>
-                                    <strong>Quiz has not questions yet!</strong> You can add questions on the right side.
+                                    <strong>Quiz has no questions yet!</strong> You can add questions on the right side.
                                 </div>
                             </td>
                         </tr>

@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Quiz extends Model
 {
+    const   MULTIPLE_CHOICE = 1,
+            IDENTIFICATION = 2,
+            EXAM = 3;
+            
     protected $table = 'quizzes';
 
     /**
@@ -14,7 +18,7 @@ class Quiz extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'subject_id'
+        'title', 'subject_id', 'quiz_type'
     ];
 
     public $timestamps = false;
@@ -26,6 +30,6 @@ class Quiz extends Model
 
     public function items()
     {
-    	return $this->hasMany(QuizItem::class, 'quiz_id');
+    	return $this->belongsToMany(QuizItem::class, 'quiz_items_pivot', 'quiz_id', 'item_id');
     }
 }

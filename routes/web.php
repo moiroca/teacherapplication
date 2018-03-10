@@ -19,7 +19,12 @@ Route::get('/', [
 	'uses'	=> 'HomeController@index'
 ]);
 
-Route::get('/announcements', 'SubjectController@index');
+Route::group(['prefix' => 'announcements'], function () {
+	Route::get('/', [
+		'as'	=> 'announcements.index',
+		'uses'	=> 'AnnouncementController@index'
+	]);
+});
 
 Route::group(['prefix' => "quiz"], function() {
 	Route::get('/', [
@@ -101,6 +106,16 @@ Route::group([ 'prefix' => 'students'], function () {
 		'uses'	=> 'Student\AttendanceController@index'
 	]);
 
+	Route::get('/announcements', [
+		'as'	=> 'announcements.students.index',
+		'uses'	=> 'Student\AnnouncementController@index'
+	]);
+
+	Route::get('/announcements/{subject_id}', [
+		'as'	=> 'announcements.students.show',
+		'uses'	=> 'Student\AnnouncementController@list'
+	]);
+
 	Route::get('/quizzes/{subject_id}', [
 		'as'	=> 'students.quizzes',
 		'uses'	=> 'Student\QuizController@index'
@@ -136,5 +151,49 @@ Route::group(['prefix' => 'enrollment'], function () {
 	Route::post('/{subject_id}', [
 		'as'	=> 'enrollment.subject.save',
 		'uses'	=> 'EnrollmentController@save'
+	]);
+});
+
+Route::group(['prefix' => 'modules'], function () {
+	Route::get('/{subject_id}', [
+		'as'	=> 'modules.subject',
+		'uses'	=> 'SubjectModuleController@create'
+	]);
+
+	Route::get('/{subject_id}/list', [
+		'as'	=> 'modules.subject.index',
+		'uses'	=> 'SubjectModuleController@index'
+	]);
+
+	Route::post('/{subject_id}', [
+		'as'	=> 'modules.subject.save',
+		'uses'	=> 'SubjectModuleController@save'
+	]);
+});
+
+Route::group(['prefix' => 'exams'], function () {
+	Route::get('/', [
+		'as'	=> 'exams.index',
+		'uses'	=> 'ExamController@index'
+	]);
+
+	Route::get('/create', [
+		'as'	=> 'exams.create',
+		'uses'	=> 'ExamController@create'
+	]);
+
+	Route::post('/create', [
+		'as'	=> 'exams.save',
+		'uses'	=> 'ExamController@save'
+	]);
+
+	Route::get('/{exam_id}/items', [
+		'as'	=> 'exams.items.create',
+		'uses'	=> 'ExamController@createItems'
+	]);
+
+	Route::post('/{exam_id}/items', [
+		'as'	=> 'exams.items.create',
+		'uses'	=> 'ExamController@saveItems'
 	]);
 });

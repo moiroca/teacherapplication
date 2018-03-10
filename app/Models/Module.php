@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class StudentQuizAnswer extends Model
+class Module extends Model
 {
-    protected $table = 'student_quiz_answers'; 
+    protected $table = 'modules';
 
     /**
      * The attributes that are mass assignable.
@@ -14,7 +14,7 @@ class StudentQuizAnswer extends Model
      * @var array
      */
     protected $fillable = [
-        'quiz_item_id', 'student_quiz_id', 'answer'
+        'path', 'name'
     ];
 
     public $timestamps = false;

@@ -26,14 +26,15 @@
                 @if(Auth::user()->isTeacher())
                     <ul class="nav side-menu">
                         <li>
-                            <a href="javascript:void(0)">
+                            <a href="{{ route('announcements.index') }}">
                                 <i class="fa fa-bullhorn"></i>
                                 Announcements
                             </a>
                         </li>
-                        <li><a><i class="fa fa-file-text"></i> Quiz Management <span class="fa fa-chevron-down"></span></a>
+                        <li><a><i class="fa fa-file-text"></i> Exam Management <span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
                                 <li><a href="{{ route('quiz.index') }}">Quizzes</a></li>
+                                <li><a href="{{ route('exams.index') }}">Exams</a></li>
                             </ul>
                         </li>
                         <li>
@@ -52,7 +53,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:void(0)">
+                            <a href="{{ route('announcements.students.index') }}">
                                 <i class="fa fa-bullhorn"></i>
                                 Announcements
                             </a>
