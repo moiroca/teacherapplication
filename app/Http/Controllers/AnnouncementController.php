@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 use App\Models\Subject;
+use App\Models\Module;
+use Illuminate\Support\Facades\Storage;
 
 class AnnouncementController extends Controller
 {
@@ -24,4 +26,10 @@ class AnnouncementController extends Controller
 
     	return view('announcements.subjects', compact('subjects'));
 	}
+
+    public function download(Request $request, $module_id)
+    {
+        $module = Module::find($module_id);
+        return response()->download(storage_path('/app/' . $module->path));
+    }
 }

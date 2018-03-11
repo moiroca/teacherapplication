@@ -28,7 +28,7 @@ class SubjectModuleController extends Controller
 	{
 		$document = $request->file('document');
 
-		$path = $document->store('documents');
+		$path = $document->store('documents', 'local');
 		$name = $request->get('announcement');
 
 		$module = Module::create([
@@ -42,5 +42,11 @@ class SubjectModuleController extends Controller
 		]);
 
 		return redirect()->route('modules.subject.index', ['subject_id' => $subject_id]);
+	}
+
+	public function download(Request $request)
+	{
+		
+		return response()->download($pathToFile);
 	}
 }

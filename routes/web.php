@@ -24,6 +24,11 @@ Route::group(['prefix' => 'announcements'], function () {
 		'as'	=> 'announcements.index',
 		'uses'	=> 'AnnouncementController@index'
 	]);
+
+	Route::get('/announcements/{module_id}', [
+		'as'	=> 'announcements.download',
+		'uses'	=> 'AnnouncementController@download'
+	]);
 });
 
 Route::group(['prefix' => "quiz"], function() {
