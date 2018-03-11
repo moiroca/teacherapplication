@@ -65,11 +65,13 @@
                     </tbody>
                 </table>
                 <div class="ln_solid"></div>
-                <div class="form-group">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <button type="submit" class="btn btn-success"><i class='fa fa-save'></i> Save Exam</button>
+                @if($collatedSubjectQuestions->count() != 0)
+                    <div class="form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <button type="submit" class="btn btn-success"><i class='fa fa-save'></i> Save Exam</button>
+                        </div>
                     </div>
-                </div>
+                @endif
             </form>
         </div>
         <div class="col-md-6">

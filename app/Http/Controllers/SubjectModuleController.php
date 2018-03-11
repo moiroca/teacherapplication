@@ -46,7 +46,6 @@ class SubjectModuleController extends Controller
 
 	public function download(Request $request)
 	{
-		
 		return response()->download($pathToFile);
 	}
 }

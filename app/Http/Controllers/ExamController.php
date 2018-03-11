@@ -24,14 +24,32 @@ class ExamController extends Controller
 	public function index(Request $request)
 	{
 		$subjects = Subject::where('teacher_id', Auth::user()->id)->get()->pluck('id');
+
     	$exams  = Quiz::with('subject')->where('quiz_type', Quiz::EXAM)->whereIn('id', $subjects)->get();
 
-		return view('exams.index', compact('subjects', 'exams'));
+    	$subjectQuizItemCount = \DB::table('quizzes')
+    								->select('*')
+    								->join('quiz_items_pivot', 'quiz_items_pivot.quiz_id', '=', 'quizzes.id')
+    								->whereIn('quizzes.subject_id', $subjects)
+    								->get();
+
+		return view('exams.index', compact('subjects', 'exams', 'subjectQuizItemCount'));
 	}
 	
 	public function create(Request $request)
 	{
-		$subjects = Subject::where('teacher_id', Auth::user()->id)->get();
+		$subjectWithQuizItems = \DB::table('quizzes')
+    								->selectRaw('quizzes.subject_id as id')
+    								->join('quiz_items_pivot', 'quiz_items_pivot.quiz_id', '=', 'quizzes.id')
+    								->groupBy('id')
+    								->get()
+    								->pluck('id')
+    								->toArray();
+
+  //   	select quizzes.subject_id as id from quizzes
+		// join quiz_items_pivot on quiz_items_pivot.quiz_id = quizzes.id
+		// group by id
+		$subjects = Subject::where('teacher_id', Auth::user()->id)->whereIn('subjects.id', $subjectWithQuizItems)->get();
     	return view('exams.create', compact('subjects'));
 	}
 
