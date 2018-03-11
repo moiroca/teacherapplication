@@ -25,7 +25,7 @@
                     <tr>
                         <td> {{ $index + 1 }} </td>
                         <td> {{ $module->name }} </td>
-                        <td> <a href="{{ \Storage::url($module->path) }}"><i class='fa fa-download'></i>  Download</a></td>
+                        <td> <a href="{{ route('announcements.download', ['module_id' => $module->id]) }}"><i class='fa fa-download'></i>  Download</a></td>
                     </tr>
                 @empty
                     <tr>
