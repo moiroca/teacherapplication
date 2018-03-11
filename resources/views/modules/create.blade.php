@@ -22,7 +22,7 @@
             <div class="form-group {{ ($errors->has('announcement')) ? 'has-error' : '' }}">
                 <label for="announcement" class="control-label">Announcement</label>
                 <div>
-                    <textarea class="form-control" id="announcement" name="announcement" cols="50" rows="10">gasdasd</textarea>
+                    <textarea class="form-control" id="announcement" name="announcement" cols="50" rows="10"></textarea>
                     @if($errors->has('announcement'))
                         <span class="help-block">{{ $errors->first('announcement') }}</span>
                     @endif
