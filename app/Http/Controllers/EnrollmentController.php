@@ -40,4 +40,13 @@ class EnrollmentController extends Controller
 
 		return redirect()->route('enrollment.subject', [ 'subject_id' => $subject_id ]);
 	}
+
+	public function delete(Request $request, $subject_id)
+	{
+		$student_id = $request->get('student_id');
+
+		SubjectStudent::where('subject_id', $subject_id)->where('student_id', $student_id)->delete();
+
+		return redirect()->route('enrollment.subject', [ 'subject_id' => $subject_id ]);
+	}
 }

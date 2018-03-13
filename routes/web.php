@@ -157,6 +157,11 @@ Route::group(['prefix' => 'enrollment'], function () {
 		'as'	=> 'enrollment.subject.save',
 		'uses'	=> 'EnrollmentController@save'
 	]);
+
+	Route::post('/delete/{subject_id}', [
+		'as'	=> 'enrollment.subject.delete',
+		'uses'	=> 'EnrollmentController@delete'
+	]);
 });
 
 Route::group(['prefix' => 'modules'], function () {

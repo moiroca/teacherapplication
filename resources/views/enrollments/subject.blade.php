@@ -27,9 +27,12 @@
                         <td>{{ $student->email }}</td>
                         <td>
                             @if($student->is_enrolled)
-                                <span class="label label-success">
-                                    <i class='fa fa-mortar-board'></i> Enrolled
-                                </span>
+                                <form method="POST" action="{{ route('enrollment.subject.delete', ['subject_id' => $subject->id]) }}">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="student_id" value="{{ $student->id }}">
+                                    <button type='submit' class='btn btn-warning btn-sm' href="#"><i class='fa fa-mortar-board'></i> Un-Enroll</button>
+                               </form>
+                                
                             @else
                                <form method="POST" action="{{ route('enrollment.subject.save', ['subject_id' => $subject->id]) }}">
                                     {{ csrf_field() }}
