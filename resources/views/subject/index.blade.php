@@ -2,7 +2,7 @@
 
 @push('stylesheets')
     <!-- Example -->
-    <!--<link href=" <link href="{{ asset("css/myFile.min.css") }}" rel="stylesheet">" rel="stylesheet">-->
+    <link href="{{ asset('css/sweetalert.css') }}" rel="stylesheet">
 @endpush
 
 @section('main_container')
@@ -30,7 +30,7 @@
                                 <i class='fa fa-bullhorn'></i>
                             </a> | 
                             <a href="#"><i class='fa fa-edit'></i></a> | 
-                            <a href="#"><i class='fa fa-trash'></i></a>
+                            <a data-id="{{ $subject->id }}" class="delete-subject" href="javascript:void(0)"><i class='fa fa-trash'></i></a>
                         </td>
                     </tr>
                 @endforeach
@@ -39,3 +39,61 @@
     </div>
     <!-- /page content -->
 @endsection
+
+@push('scripts')
+    <!-- Example -->
+    <script src="{{ asset('js/sweetalert.min.js') }}"></script>
+    <script>
+        var isSubmitted = false;
+
+        $('.delete-subject').on('click', function (e) {
+            
+            e.preventDefault();
+            var subject_id = $(this).attr('data-id');
+
+            swal({
+              title: "Are you sure?",
+              text: "You will not be able to recover this subject!",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonClass: 'btn-danger',
+              confirmButtonText: 'Yes, delete it!',
+              closeOnConfirm: true,
+              closeOnCancel: true
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    $.post("subjects/" + subject_id,{
+                        _token : "{{ csrf_token() }}"
+                    }, function(response) {
+                        console.log(response.has_dependency);
+                        if (response.has_dependency) {
+                            swal({
+                              title: "There are dependencies. Are you sure?",
+                              text: "Once deleted, you will not be able to recover this dependency. " + response.msg,
+                              type: "warning",
+                              showCancelButton: true,
+                              confirmButtonClass: 'btn-danger',
+                              confirmButtonText: 'Yes, delete it!',
+                              closeOnConfirm: true,
+                              closeOnCancel: false,
+                            }, function(willDelete) {
+                                if (willDelete) {
+                                    $.post("subjects/" + subject_id + '?is_force=true',{
+                                        _token : "{{ csrf_token() }}"
+                                    }, function(response) {
+                                        window.location.reload();
+                                    });
+                                  } else {
+                                    swal("", "Good job! Think before you delete!", "success");
+                                  }
+                            });
+                        } else {
+                            window.location.reload();
+                        }
+                    });
+                }
+            });
+
+        });
+    </script>
+@endpush

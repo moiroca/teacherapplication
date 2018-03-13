@@ -72,6 +72,11 @@ Route::group(['prefix' => "subjects"], function () {
 		'uses'	=> 'SubjectController@index'
 	]);
 
+	Route::post('/{subject_id}', [
+		'as'	=> 'exams.items.delete',
+		'uses'	=> 'SubjectController@delete'
+	]);
+
 	Route::get('/{subject_id}/students', [
 		'as'	=> 'subject.students',
 		'uses'	=> 'SubjectStudentController@index'
