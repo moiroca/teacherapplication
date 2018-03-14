@@ -2,9 +2,8 @@
 
 @push('stylesheets')
     <!-- Example -->
-    <!--<link href=" <link href="{{ asset("css/myFile.min.css") }}" rel="stylesheet">" rel="stylesheet">-->
+    <link href="{{ asset('css/sweetalert.css') }}" rel="stylesheet">
 @endpush
-
 @section('main_container')
 
     <!-- page content -->
@@ -20,6 +19,7 @@
                 </tr>
             </thead>
             <tbody>
+                <input type="hidden" value="{{ $subject->id }}" id="subject_id" />
                 @forelse($students as $index => $student)
                     <tr>
                         <td>{{ $index + 1}}</td>
@@ -30,7 +30,7 @@
                                 <form method="POST" action="{{ route('enrollment.subject.delete', ['subject_id' => $subject->id]) }}">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="student_id" value="{{ $student->id }}">
-                                    <button type='submit' class='btn btn-warning btn-sm' href="#"><i class='fa fa-mortar-board'></i> Un-Enroll</button>
+                                    <button data-id="{{ $student->id }}" type='submit' class='un-enroll btn btn-warning btn-sm' href="#"><i class='fa fa-mortar-board'></i> Un-Enroll</button>
                                </form>
                                 
                             @else
@@ -58,3 +58,40 @@
     </div>
     <!-- /page content -->
 @endsection
+
+@push('scripts')
+    <!-- Example -->
+    <script src="{{ asset('js/sweetalert.min.js') }}"></script>
+    <script>
+        $('button.un-enroll').on('click', function (e) {
+
+            e.preventDefault();
+            var student_id = $(this).attr('data-id');
+
+            swal({
+              title: "Are you sure?",
+              text: "You can enroll this student later!",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonClass: 'btn-danger',
+              confirmButtonText: 'Yes, Un-enroll student!',
+              closeOnConfirm: true,
+              closeOnCancel: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    var subject_id = $("#subject_id").val();
+
+                    $.post("delete/" + subject_id, {
+                        _token : "{{ csrf_token() }}",
+                        student_id : student_id
+                    }, function(response) {
+                        window.location.reload();
+                    });
+                } else {
+                    swal("", "Good job! Think before you delete!", "success");
+                }
+            });
+
+        });
+    </script>
+@endpush
