@@ -72,6 +72,11 @@ Route::group(['prefix' => "subjects"], function () {
 		'uses'	=> 'SubjectController@index'
 	]);
 
+	Route::post('/create', [
+		'as'	=> 'subject.save',
+		'uses'	=> 'SubjectController@save'
+	]);
+	
 	Route::post('/{subject_id}', [
 		'as'	=> 'exams.items.delete',
 		'uses'	=> 'SubjectController@delete'
@@ -100,11 +105,6 @@ Route::group(['prefix' => "subjects"], function () {
 	Route::get('/create', [
 		'as'	=> 'subject.create',
 		'uses'	=> 'SubjectController@create'
-	]);
-
-	Route::post('/create', [
-		'as'	=> 'subject.save',
-		'uses'	=> 'SubjectController@save'
 	]);
 });
 

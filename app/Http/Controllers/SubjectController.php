@@ -43,7 +43,7 @@ class SubjectController extends Controller
                 'teacher_id'    => Auth::user()->id,
             ]);
 
-            return redirect()->route('subject.create')->with('isSuccess', true);
+            return redirect()->route('subject.index')->with('isSuccess', true);
         } catch (\Exception $e) {
             return redirect()->route('subject.create')->with('isSuccess', false);
         }
