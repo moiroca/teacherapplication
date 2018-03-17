@@ -9,18 +9,9 @@
 
     <!-- page content -->
     <div class="right_col" role="main">
-        <div class='col-md-12'>
-            <h4 class='pull-left'> {{ $subject->name }}</h4>
-            
-            <a  class="btn btn-danger btn-sm pull-right" href="{{ route('enrollment.subject', ['subject_id' => $subject_id]) }}">
-                <i class='fa fa-institution'></i> Enroll Student
-            </a>
-            <a  class="btn btn-primary btn-sm pull-right" href="{{ route('subject.students.attendance.index', ['subject_id' => $subject_id]) }}">
-                <i class='fa fa-plus'></i> View Attendance
-            </a>
-            <a  class="btn btn-success btn-sm pull-right" href="{{ route('subject.students.attendance.create', ['subject_id' => $subject_id]) }}">
-                <i class='fa fa-plus'></i> Create Attendance
-            </a>
+        <?php $examItemCount = $exam->items->count(); ?>
+        <div class="title_left">
+            <h3> {{ $exam->title }} Result <small> {{ $examItemCount }} Items</small></h3>
         </div>
         <div class="clearfix"></div>
         <br/>
@@ -29,15 +20,23 @@
                 <tr>
                     <th>#</th>
                     <th>Name</th>
-                    <th>Email</th>
+                    <th>Result</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($subjectStudents as $index => $subjectStudent)
+                @forelse($studentExamResult as $index => $studentExam)
                     <tr>
                         <td scope="row">{{ $index + 1 }}</td>
-                        <td>{{ $subjectStudent->student->name }}</td>
-                        <td>{{ $subjectStudent->student->email }}</td>
+                        <td>{{ $studentExam->student_name }}</td>
+                        <td>
+                            @if(is_null($studentExam->score))
+                                <span class="label label-info">N/A</span>
+                            @elseif($studentExam->score == $examItemCount)
+                                <span class="label label-success">{{ $studentExam->score }} out of {{ $examItemCount }}</span>
+                            @else 
+                                <span class="label label-default">{{ $studentExam->score }} out of {{ $examItemCount }}</span>
+                            @endif
+                        </td>
                     </tr>
                 @empty
                     <tr>

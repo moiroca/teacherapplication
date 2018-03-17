@@ -9,9 +9,9 @@
 
     <!-- page content -->
     <div class="right_col" role="main">
-        <a  class="btn btn-primary btn-sm" href="{{ route('subject.create') }}"><i class='fa fa-plus'></i> Create Subject</a>
-        <br/>
-        <br/>
+      <div class="title_left">
+          <h3> Subjects With Exams <small> List of subjects with exams </small></h3>
+      </div>
     	<table class="table">
             <thead>
                 <tr>
@@ -21,18 +21,27 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($subjects as $index => $subject)
+                @forelse($subjects as $index => $subject)
                     <tr>
-                        <th scope="row">{{ $index + 1 }}</th>
-                        <td><a href="{{ route('subject.students', $subject->id) }}">{{ $subject->name }}</a></td>
+                        <td scope="row">{{ $index + 1 }}</td>
+                        <td><a href="{{ route('quizzes.subjects.exam_list', ['subject_id' => $subject->id]) }}">{{ $subject->name }}</a></td>
                         <td>
-                            <a href="{{ route('modules.subject.index', ['subject_id' => $subject->id]) }}"> 
-                                <i class='fa fa-bullhorn'></i>
-                            </a> |
-                            <a data-id="{{ $subject->id }}" class="delete-subject" href="javascript:void(0)"><i class='fa fa-trash'></i></a>
+                            <a href="{{ route('quizzes.subjects.exam_list', ['subject_id' => $subject->id])  }}"> 
+                                <i class='fa fa-bullhorn'></i> View Quizzes
+                            </a>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                         <td colspan="4">
+                            <div class="alert alert-info alert-dismissible fade in" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <strong>No Exams in this Subject!</strong> Create one by visiting Exam Management Page.
+                            </div>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

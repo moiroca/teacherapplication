@@ -9,21 +9,29 @@
 
     <!-- page content -->
     <div class="right_col" role="main">
-        <a  class="btn btn-primary btn-sm" href="{{ route('quiz.create') }}"><i class='fa fa-plus'></i> Create Quiz</a>
+        <div class="title_left">
+          <h3> {{ $subject->name }} Exams <small> List of Exams </small></h3>
+        </div>
     	<table class="table">
             <thead>
                 <tr>
                     <th>#</th>
                     <th>Title</th>
-                    <th>Subject</th>
+                    <th>Items</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($quizzes as $index => $quizz)
+                @forelse($exams as $index => $exam)
                     <tr>
                         <th scope="row">{{ $index + 1 }}</th>
-                        <td><a href="{{ route('quiz.items.create', $quizz->id) }}">{{ $quizz->title }}</a></td>
-                        <td>{{ $quizz->subject->name }}</td>
+                        <td>
+                            <a href="{{ route('quiz.items.create', $exam->id) }}">{{ $exam->title }}</a>
+                        </td>
+                        <td>{{ $exam->items->count() }}</td>
+                        <td>
+                            <a href="{{ route('quizzes.subjects.exam_list.result', ['subject_id' => $exam->subject_id, 'exam_id' => $exam->id]) }}"><i class='fa fa-bullhorn'></i> View Result</a>
+                        </td>
                     </tr>
                 @empty
                     <tr>
@@ -31,7 +39,7 @@
                             <div class="alert alert-info alert-dismissible fade in" role="alert">
                                 <button type="submit" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                                 </button>
-                                <strong>No Quiz Found!</strong> You can create quiz by clicking "Create Quiz" button above.
+                                <strong>No Exams Found!</strong> You can create quiz by visiting Exam Management.
                             </div>
                         </td>
                     </tr>

@@ -13,6 +13,7 @@
         <br/>
         <br/>
         <form method="post" action="{{ route('subject.students.attendance.save', ['subject_id' => $subject_id]) }}" id="demo-form2" data-parsley-validate class="form-label-left">
+
             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
             <div class="form-group">
                 <label class="control-label col-md-1 col-sm-1 col-xs-12" for="date">
@@ -62,7 +63,8 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <button type="submit" class="btn btn-success"><i class='fa fa-save'></i> Save Attendance </button>
                 </div>
-            </div>
+            </div>  
+        </form>
     </div>
     <!-- /page content -->
 @endsection

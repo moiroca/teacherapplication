@@ -44,9 +44,23 @@ class ModelSeeders extends Command
      */
     public function handle()
     {
+        $this->seedAdmin();
         $this->seedTeachers();
         $this->seedStudents();
         $this->seedSubjects();
+    }
+
+    private function seedAdmin()
+    {
+        // Default Admin
+        User::create([
+            'name' => 'Angel Macabangon',
+            'email' => 'admin@example.com',
+            'role'  => 3,
+            'is_confirmed'  => 1,
+            'password' => bcrypt('password'),
+        ]);
+        echo "\n Admin Seeded\n";
     }
 
     private function seedTeachers($count = 10)
@@ -56,14 +70,17 @@ class ModelSeeders extends Command
             'name' => 'John Doe',
             'email' => 'john.doe@example.com',
             'role'  => 1,
+            'is_confirmed'  => 1,
             'password' => bcrypt('password'),
         ]);
 
         for ($i=1; $i <= $count; $i++) { 
+            $isConfirmed = rand(0,1);
             User::create([
                 'name' => $this->faker->name,
                 'email' => $this->faker->safeEmail,
                 'role'  => 1,
+                'is_confirmed' => $isConfirmed,
                 'password' => bcrypt('password'),
             ]);
             echo '.';
@@ -83,10 +100,12 @@ class ModelSeeders extends Command
         ]);
 
         for ($i=1; $i <= $count; $i++) { 
+            $isConfirmed = rand(0,1);
             User::create([
                 'name' => $this->faker->name,
                 'email' => $this->faker->safeEmail,
                 'role'  => 2,
+                'is_confirmed' => $isConfirmed,
                 'password' => bcrypt('password'),
             ]);
             echo '.';
@@ -98,7 +117,7 @@ class ModelSeeders extends Command
     private function seedSubjects($count = 5)
     {
         // Seed Only First 10 Teachers
-        $teachers = User::where('role', 1)->limit(10)->get();
+        $teachers = User::where('role', 1)->where('is_confirmed', User::CONFIRMED)->limit(10)->get();
 
         $subjectTitle = ['Programming', 'IT Elective', 'Database Management', 'Linux Administration'];
 

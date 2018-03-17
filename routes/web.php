@@ -31,6 +31,34 @@ Route::group(['prefix' => 'announcements'], function () {
 	]);
 });
 
+Route::group(['prefix' => 'user'], function () {
+	Route::post('/confirmation', [
+		'as'	=> 'user.confirmation',
+		'uses'	=> 'UserController@confirm'
+	]);
+
+	Route::post('/delete/student', [
+		'as'	=> 'user.student.delete',
+	'uses'	=> 'UserController@deleteStudent'
+	]);
+
+	Route::post('/delete/teacher', [
+		'as'	=> 'user.teacher.delete',
+		'uses'	=> 'UserController@deleteTeacher'
+	]);
+
+	Route::get('/update/{user_id}', [
+		'as'	=> 'user.update.index',
+		'uses'	=> 'UserController@update'
+	]);
+
+	Route::post('/update', [
+		'as'	=> 'user.update.save',
+		'uses'	=> 'UserController@saveUpdate'
+	]);
+});
+
+
 Route::group(['prefix' => "quiz"], function() {
 	Route::get('/', [
 		'as'	=> 'quiz.index',
@@ -59,7 +87,6 @@ Route::group(['prefix' => "quiz"], function() {
 });
 
 Route::group(['prefix' => 'attendance'], function () {
-
 	Route::get('/{attendance_id}', [
 		'as'	=> 'attendance.index',
 		'uses'	=> 'AttendanceController@show'
@@ -76,7 +103,7 @@ Route::group(['prefix' => "subjects"], function () {
 		'as'	=> 'subject.save',
 		'uses'	=> 'SubjectController@save'
 	]);
-	
+
 	Route::post('/{subject_id}', [
 		'as'	=> 'exams.items.delete',
 		'uses'	=> 'SubjectController@delete'
@@ -186,6 +213,23 @@ Route::group(['prefix' => 'modules'], function () {
 	]);
 });
 
+Route::group(['prefix' => 'quizzes'], function () {
+	Route::get('/subjects', [
+		'as' 	=> 'quizzes.subjects',
+		'uses'  => 'QuizController@subjects'
+	]);
+
+	Route::get('/subjects/{subject_id}', [
+		'as' 	=> 'quizzes.subjects.exam_list',
+		'uses'  => 'QuizController@subjectsQuizzes'
+	]);
+
+	Route::get('/subjects/{subject_id}/{exam_id}', [
+		'as' 	=> 'quizzes.subjects.exam_list.result',
+		'uses'  => 'QuizController@subjectsQuizResults'
+	]);
+});
+
 Route::group(['prefix' => 'exams'], function () {
 	Route::get('/', [
 		'as'	=> 'exams.index',
@@ -202,6 +246,21 @@ Route::group(['prefix' => 'exams'], function () {
 		'uses'	=> 'ExamController@save'
 	]);
 
+	Route::get('/subjects', [
+		'as' 	=> 'exams.subjects',
+		'uses'  => 'ExamController@subjects'
+	]);
+
+	Route::get('/subjects/{subject_id}', [
+		'as' 	=> 'exams.subjects.exam_list',
+		'uses'  => 'ExamController@subjectsExams'
+	]);
+
+	Route::get('/subjects/{subject_id}/{exam_id}', [
+		'as' 	=> 'exams.subjects.exam_list.result',
+		'uses'  => 'ExamController@subjectsExamResults'
+	]);
+
 	Route::get('/{exam_id}/items', [
 		'as'	=> 'exams.items.create',
 		'uses'	=> 'ExamController@createItems'
@@ -210,5 +269,23 @@ Route::group(['prefix' => 'exams'], function () {
 	Route::post('/{exam_id}/items', [
 		'as'	=> 'exams.items.create',
 		'uses'	=> 'ExamController@saveItems'
+	]);
+
+});
+
+Route::group(['prefix' => 'admin'], function () {
+	Route::get('/students', [
+		'as'	=> 'admin.students',
+		'uses'	=> 'Admin\StudentController@index'
+	]);
+
+	Route::get('/teachers', [
+		'as'	=> 'admin.teachers',
+		'uses'	=> 'Admin\TeacherController@index'
+	]);
+
+	Route::get('/teachers/{teacher_id}/subjects', [
+		'as'	=> 'admin.teachers.subjects',
+		'uses'	=> 'Admin\TeacherController@subjects'
 	]);
 });

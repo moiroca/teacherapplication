@@ -129,7 +129,7 @@ class QuizController extends Controller
                 question_answers.correct_answer,
                 question_answers.content,
                 student_quiz_answers.answer,
-                if(question_answers.correct_answer = student_quiz_answers.answer, true, false) as is_correct
+                if(question_answers.correct_answer = student_quiz_answers.answer, 1, 0) as is_correct
             ')
             ->leftJoin(
                     'student_quiz_answers', 

@@ -9,9 +9,9 @@
 
     <!-- page content -->
     <div class="right_col" role="main">
-        <h6>Your {{ $quiz->title }} Quiz Score</h6> 
-        <br/>
-        <br/>
+        <div class="title_left">
+            <h3>{{ $quiz->title }} Quiz Score<small> See how you perform</small></h3>
+        </div>
         <table class="table">
             <thead>
                 <tr>

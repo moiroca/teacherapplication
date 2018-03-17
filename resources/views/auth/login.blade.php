@@ -24,11 +24,12 @@
         <div class="animate form login_form">
             <section class="login_content">
 				{!! BootForm::open(['url' => url('/login'), 'method' => 'post']) !!}
-                    
+                
+                
 				<h4>{{ config('app.name') }} Login</h4>
 			
 				{!! BootForm::email('email', 'Email', old('email'), ['placeholder' => 'Email', 'afterInput' => '<span>test</span>'] ) !!}
-			
+			     
 				{!! BootForm::password('password', 'Password', ['placeholder' => 'Password']) !!}
 				
                 <div class="form-group">

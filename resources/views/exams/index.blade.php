@@ -20,7 +20,6 @@
                     <th>#</th>
                     <th>Title</th>
                     <th>Subject</th>
-                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,10 +29,6 @@
                             <th scope="row">{{ $index + 1 }}</th>
                             <td><a href="{{ route('exams.items.create', $exam->id) }}">{{ $exam->title }}</a></td>
                             <td>{{ $exam->subject->name }}</td>
-                            <td>
-                                <a href="#"><i class='fa fa-edit'></i></a> | 
-                                <a href="#"><i class='fa fa-trash'></i></a>
-                            </td>
                         </tr>
                     @empty
                         <tr>

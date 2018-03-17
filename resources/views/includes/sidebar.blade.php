@@ -43,6 +43,33 @@
                                 Subject Management
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('quizzes.subjects') }}">
+                                <i class="fa fa-flask"></i>
+                                Quiz Output
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('exams.subjects') }}">
+                                <i class="fa fa-flask"></i>
+                                Exam Output
+                            </a>
+                        </li>
+                    </ul>
+                @elseif(Auth::user()->isAdmin())
+                    <ul class="nav side-menu">
+                        <li>
+                            <a href="{{ route('admin.teachers') }}">
+                                <i class="fa fa-flask"></i>
+                                Teachers Management
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.students') }}">
+                                <i class="fa fa-flask"></i>
+                                Students Management
+                            </a>
+                        </li>
                     </ul>
                 @else
                     <ul class="nav side-menu">
