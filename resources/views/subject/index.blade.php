@@ -21,7 +21,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($subjects as $index => $subject)
+                @forelse($subjects as $index => $subject)
                     <tr>
                         <th scope="row">{{ $index + 1 }}</th>
                         <td><a href="{{ route('subject.students', $subject->id) }}">{{ $subject->name }}</a></td>
@@ -32,7 +32,17 @@
                             <a data-id="{{ $subject->id }}" class="delete-subject" href="javascript:void(0)"><i class='fa fa-trash'></i></a>
                         </td>
                     </tr>
-                @endforeach
+                 @empty
+                    <tr>
+                        <td colspan="3">
+                            <div class="alert alert-info alert-dismissible fade in" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <strong>No Subject Found!</strong> Create Subject by clicking Create Subject Button Above.
+                            </div>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

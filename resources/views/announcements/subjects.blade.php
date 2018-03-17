@@ -19,7 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($subjects as $index => $subject)
+                @forelse($subjects as $index => $subject)
                     <tr>
                         <th scope="row">{{ $index + 1 }}</th>
                         <td><a href="{{ route('subject.students', $subject->id) }}">{{ $subject->name }}</a></td>
@@ -29,7 +29,17 @@
                             </a>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="3">
+                            <div class="alert alert-info alert-dismissible fade in" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <strong>No Announcements Found!</strong> Ask your teacher to enroll you in a subject.
+                            </div>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
