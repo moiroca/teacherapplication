@@ -11,7 +11,7 @@ class TeacherController extends Controller
 {
     public function index(Request $request)
     {
-    	$teachers = User::where('role', 1)->get();
+    	$teachers = User::where('role', 1)->orderBy('is_confirmed', 'DESC')->get();
 
     	return view('admin.teachers.list', compact('teachers'));
     }
