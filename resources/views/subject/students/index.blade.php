@@ -1,57 +1,68 @@
 @extends('layouts.blank')
 
 @push('stylesheets')
-    <!-- Example -->
-    <!--<link href=" <link href="{{ asset("css/myFile.min.css") }}" rel="stylesheet">" rel="stylesheet">-->
+    <!-- Datatables -->
+    <link href="{{ asset('datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
 @endpush
 
 @section('main_container')
-
     <!-- page content -->
     <div class="right_col" role="main">
-        <div class='col-md-12'>
-            <h4 class='pull-left'> {{ $subject->name }}</h4>
-            
-            <a  class="btn btn-danger btn-sm pull-right" href="{{ route('enrollment.subject', ['subject_id' => $subject_id]) }}">
-                <i class='fa fa-institution'></i> Enroll Student
-            </a>
-            <a  class="btn btn-primary btn-sm pull-right" href="{{ route('subject.students.attendance.index', ['subject_id' => $subject_id]) }}">
-                <i class='fa fa-plus'></i> View Attendance
-            </a>
-            <a  class="btn btn-success btn-sm pull-right" href="{{ route('subject.students.attendance.create', ['subject_id' => $subject_id]) }}">
-                <i class='fa fa-plus'></i> Create Attendance
-            </a>
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>{{ $subject->name }} Enrollees<small> List of enrolled students.</small></h2>
+                    <a  class="btn btn-danger btn-sm pull-right" href="{{ route('enrollment.subject', ['subject_id' => $subject_id]) }}">
+                    <i class='fa fa-institution'></i> Enroll Student
+                </a>
+                <a  class="btn btn-primary btn-sm pull-right" href="{{ route('subject.students.attendance.index', ['subject_id' => $subject_id]) }}">
+                    <i class='fa fa-plus'></i> View Attendance
+                </a>
+                <a  class="btn btn-success btn-sm pull-right" href="{{ route('subject.students.attendance.create', ['subject_id' => $subject_id]) }}">
+                    <i class='fa fa-plus'></i> Create Attendance
+                </a>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($subjectStudents as $index => $subjectStudent)
+                            <tr>
+                                <td>
+                                    {{ $subjectStudent->student->name }}
+                                </td>
+                                <td>
+                                    {{ $subjectStudent->student->email }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="clearfix"></div>
-        <br/>
-    	<table class="table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($subjectStudents as $index => $subjectStudent)
-                    <tr>
-                        <td scope="row">{{ $index + 1 }}</td>
-                        <td>{{ $subjectStudent->student->name }}</td>
-                        <td>{{ $subjectStudent->student->email }}</td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="4">
-                            <div class="alert alert-info alert-dismissible fade in" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-                                </button>
-                                <strong>No Subject Enrolled!</strong> Ask your teacher to enroll you in a subject.
-                            </div>
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
     </div>
     <!-- /page content -->
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('datatables.net-buttons/js/dataTables.buttons.min.js') }}" ></script>
+    <script src="{{ asset('datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
+    <script src="{{ asset('datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('datatables.net-fixedheader/js/dataTables.fixedHeader.min.js') }}"></script>
+    <script src="{{ asset('datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+    <script src="{{ asset('datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('datatables.net-responsive-bs/js/responsive.bootstrap.js') }}"></script>
+    <script src="{{ asset('datatables.net-scroller/js/dataTables.scroller.min.js') }}"></script>
+@endpush

@@ -3,61 +3,62 @@
 @push('stylesheets')
     <!-- Example -->
     <link href="{{ asset('css/sweetalert.css') }}" rel="stylesheet">
+
+    <!-- Datatables -->
+    <link href="{{ asset('datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
 @endpush
 
 @section('main_container')
 
     <!-- page content -->
     <div class="right_col" role="main">
-        <div class="title_left">
-            <h3>Teachers<small> list of teachers</small></h3>
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Teachers<small> List of all teachers.</small></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name <small>(Click Name To Update)</small></th>
+                            <th>Email</th>
+                            <th>Subjects</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($teachers as $index => $teacher)
+                            <tr>
+                                <td scope="row">{{ $index + 1 }}</td>
+                                <td><a href="{{ route('user.update.index', ['user_id' => $teacher->id]) }}">{{ $teacher->name }}</a></td>
+                                <td>{{ $teacher->email }}</td>
+                                <td>
+                                    @if($teacher->is_confirmed)
+                                        <a class='btn btn-sm btn-default' href="{{ route('admin.teachers.subjects', ['teacher_id' => $teacher->id]) }} "><i class='fa fa-list'></i> View Subjects</a>
+                                    @else
+                                        <span class='label label-info'>N/A</span>
+                                    @endif
+                                </td>
+                                <td colspan=2>
+                                    @if($teacher->is_confirmed)
+                                        <button data-id="{{ $teacher->id }}" data-confirm="0" type='submit' class='confirm btn btn-warning btn-sm' href="#"><i class='fa fa-mortar-board'></i> Un Confirm</button>
+                                    @else
+                                        <button data-id="{{ $teacher->id }}" data-confirm="1" type='submit' class='confirm btn btn-primary btn-sm' href="#"><i class='fa fa-save'></i> Confirm</button>
+                                        <button data-id="{{ $teacher->id }}" type='button' class='delete-user btn btn-danger btn-sm' href="javascript:void(0)"><i class='fa fa-trash'></i> Delete</button>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    	<table class="table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Subjects</th>
-                    <th colspan=2>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($teachers as $index => $teacher)
-                    <tr>
-                        <td scope="row">{{ $index + 1 }}</td>
-                        <td><a href="{{ route('user.update.index', ['user_id' => $teacher->id]) }}">{{ $teacher->name }}</a></td>
-                        <td>{{ $teacher->email }}</td>
-                        <td>
-                            @if($teacher->is_confirmed)
-                                <a href="{{ route('admin.teachers.subjects', ['teacher_id' => $teacher->id]) }} "><i class='fa fa-list'></i> View Subjects</a>
-                            @else
-                                <span class='label label-info'>N/A</span>
-                            @endif
-                        </td>
-                        <td colspan=2>
-                            @if($teacher->is_confirmed)
-                                <button data-id="{{ $teacher->id }}" data-confirm="0" type='submit' class='confirm btn btn-warning btn-sm' href="#"><i class='fa fa-mortar-board'></i> Un Confirm</button>
-                            @else
-                                <button data-id="{{ $teacher->id }}" data-confirm="1" type='submit' class='confirm btn btn-primary btn-sm' href="#"><i class='fa fa-save'></i> Confirm</button>
-                                <button data-id="{{ $teacher->id }}" type='button' class='delete-user btn btn-danger btn-sm' href="javascript:void(0)"><i class='fa fa-trash'></i> Delete</button>
-                            @endif
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="4">
-                            <div class="alert alert-info alert-dismissible fade in" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-                                </button>
-                                <strong>No Students Registered!</strong> You can start adding student thru registration.
-                            </div>
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
     </div>
     <!-- /page content -->
 @endsection
@@ -126,4 +127,15 @@
 
         });
     </script>
+    <script src="{{ asset('datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('datatables.net-buttons/js/dataTables.buttons.min.js') }}" ></script>
+    <script src="{{ asset('datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
+    <script src="{{ asset('datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('datatables.net-fixedheader/js/dataTables.fixedHeader.min.js') }}"></script>
+    <script src="{{ asset('datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+    <script src="{{ asset('datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('datatables.net-responsive-bs/js/responsive.bootstrap.js') }}"></script>
+    <script src="{{ asset('datatables.net-scroller/js/dataTables.scroller.min.js') }}"></script>
 @endpush

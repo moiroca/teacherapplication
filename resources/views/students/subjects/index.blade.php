@@ -25,7 +25,7 @@
                         <td>{{ $subject->name }}</td>
                         <td>
                             <a href="{{ route('students.attendances', ['subject_id' => $subject->id]) }}"><i class='fa fa-bar-chart'></i> View Attendance</a> | 
-                            <a href="{{ route('students.quizzes', ['subject_id' => $subject->id]) }}"><i class='fa fa-file-text'></i> View Quizzes</a>
+                            <a href="{{ route('students.quizzes', ['subject_id' => $subject->id]) }}"><i class='fa fa-file-text'></i> View Exams/Quizzes</a>
                         </td>
                     </tr>
                 @empty

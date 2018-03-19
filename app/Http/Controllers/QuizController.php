@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateQuizPostRequest;
 use App\Models\Quiz;
+use App\Models\QuizItem;
+use App\Models\QuizOption;
 use App\Models\Subject;
 
 class QuizController extends Controller
 {
-	/**
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -22,30 +25,56 @@ class QuizController extends Controller
     public function index(Request $request)
     {
         $subjects = Subject::where('teacher_id', Auth::user()->id)->get()->pluck('id');
-    	$quizzes  = Quiz::with('subject')->where('quiz_type', '!=', Quiz::EXAM)->whereIn('id', $subjects)->get();
 
-    	return view('quiz.index', compact('quizzes'));
+        $quizzes  = Quiz::with('subject')
+                        ->where('quiz_type', '!=', Quiz::EXAM)
+                        ->whereIn('subject_id', $subjects)->get();
+
+        return view('quiz.index', compact('quizzes'));
     }
 
     public function create(Request $request)
     {
-    	$subjects = Subject::where('teacher_id', Auth::user()->id)->get();
-    	return view('quiz.create', compact('subjects'));
+        $subjects = Subject::where('teacher_id', Auth::user()->id)->get();
+        return view('quiz.create', compact('subjects'));
+    }
+
+    public function updateIdentificationQuiz(UpdateQuizPostRequest $request)
+    {
+        $itemId     = $request->get('item_id');
+        $optionId   = $request->get('option_id');
+        $question   = $request->get('question');
+        $answer     = $request->get('answer');
+
+        // Update Quiz Item Question
+        $quizItem   = QuizItem::find($itemId);
+        $quizItem   = $this->updateQuizItem($quizItem, [
+                            'question'  => $question
+                        ]);
+
+        $quizOption = QuizOption::find($optionId);
+        $quizOption = $this->updateQuizOption($quizOption, [
+            'content'   => $answer
+        ]);
+
+        return response()->json([
+            'success'   => true
+        ]);
     }
 
     public function save(Request $request)
     {
-    	try {
-    		$quiz = Quiz::create([
-	    		'title'			=> $request->get('title'),
-	    		'subject_id'	=> $request->get('subject_id'),
+        try {
+            $quiz = Quiz::create([
+                'title'            => $request->get('title'),
+                'subject_id'    => $request->get('subject_id'),
                 'quiz_type'     => $request->get('type')
-	    	]);
+            ]);
 
-	    	return redirect()->route('quiz.items.create', [ 'quiz_id' => $quiz->id ])->with('isSuccess', true);
-    	} catch (\Exception $e) {
-    		return redirect()->route('quiz.items.create', [ 'quiz_id' => $quiz->id ])->with('isSuccess', false);
-    	}
+            return redirect()->route('quiz.items.create', [ 'quiz_id' => $quiz->id ])->with('isSuccess', true);
+        } catch (\Exception $e) {
+            return redirect()->route('quiz.items.create', [ 'quiz_id' => $quiz->id ])->with('isSuccess', false);
+        }
     }
 
     public function subjects(Request $request)
@@ -77,7 +106,9 @@ class QuizController extends Controller
     {
         $exam = Quiz::with('items')->find($exam_id); // Show Result of Exam
 
-        if (!$exam) { abort(404); }
+        if (!$exam) {
+            abort(404);
+        }
 
         $subject = Subject::with('students')->find($subject_id);
         $enrolledStudents = $subject->students;
@@ -124,5 +155,21 @@ class QuizController extends Controller
                                 ->get();
 
         return view('quiz.outputs.result', compact('studentExamResult', 'exam'));
+    }
+
+    private function updateQuizItem($quizItem, $data)
+    {
+        $quizItem->fill($data);
+        $quizItem->update();
+
+        return $quizItem;
+    }
+
+    private function updateQuizOption($quizOption, $data)
+    {
+        $quizOption->fill($data);
+        $quizOption->update();
+
+        return $quizOption;
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Quiz;
 use App\Models\QuizItem;
 use App\Models\QuizItemPivot;
 use App\Models\QuizOption;
+use App\Http\Requests\UpdateMultipleChoiceQuizPostRequest;
 
 class QuizItemController extends Controller
 {
@@ -69,5 +70,37 @@ class QuizItemController extends Controller
         }
 
     	return redirect()->route('quiz.items.create', [$quiz_id]);
+    }
+
+    public function updateQuizMultipleChoiceItems(UpdateMultipleChoiceQuizPostRequest $request)
+    {
+        $options_content = $request->get('options_content');
+        $item_id    = $request->get('item_id');
+        $question   = $request->get('question');
+        $answer     = $request->get('answer');
+
+        $quizItem = QuizItem::find($item_id);
+
+        $quizItem->fill([
+            'question' => $question
+        ]);
+
+        $quizItem->update();
+
+        foreach ($options_content as $key => $option) {
+            $quizOption = QuizOption::find($option['id']);
+
+            $data = [
+                'content'       => $option['value'],
+                'is_correct'    => ($option['id'] == $options_content[$answer - 1]['id']) ? 1 : 0
+            ];
+
+            $quizOption->fill($data);
+            $quizOption->update();
+        }
+
+        return response()->json([
+            'success'   => true
+        ]);
     }
 }

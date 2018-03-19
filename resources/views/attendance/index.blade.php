@@ -22,11 +22,11 @@
                     <tr>
                         <th scope="row">{{ $index + 1 }}</th>
                         <td>
-                            <a 
+                            <a class='attendance'
                             href="{{ route('attendance.index', [
                                     'attendance_id' => $attendance->id
                                 ]) }}">
-                                {{ $attendance->date }}
+                                {{ date_create($attendance->date)->format('D, M j Y') }}
                             </a>
                         </td>
                         <td>{{ $attendance->inattendance->count() }}</td>

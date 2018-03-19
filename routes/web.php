@@ -14,6 +14,10 @@
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout');
 
+Route::get('/dynamic', function () {
+	return view('dynamic');
+});
+
 Route::get('/', [
 	'as'	=> 'dashboard',
 	'uses'	=> 'HomeController@index'
@@ -54,7 +58,7 @@ Route::group(['prefix' => 'user'], function () {
 
 	Route::post('/update', [
 		'as'	=> 'user.update.save',
-		'uses'	=> 'UserController@saveUpdate'
+		'uses'	=> 'UserController@updateIdentificationQuiz'
 	]);
 });
 
@@ -83,6 +87,16 @@ Route::group(['prefix' => "quiz"], function() {
 	Route::post('/create', [
 		'as'	=> 'quiz.save',
 		'uses'	=> 'QuizController@save'
+	]);
+
+	Route::post('/update', [
+		'as'	=> 'quiz.update',
+		'uses'	=> 'QuizController@updateIdentificationQuiz'
+	]);
+
+	Route::post('/update/multiple-choice', [
+		'as'	=> 'user.update.multiple_choice.save',
+		'uses'	=> 'QuizItemController@updateQuizMultipleChoiceItems'
 	]);
 });
 
@@ -289,3 +303,8 @@ Route::group(['prefix' => 'admin'], function () {
 		'uses'	=> 'Admin\TeacherController@subjects'
 	]);
 });
+
+Route::post('/publish', [
+	'as'	=> 'activity.publish',
+	'uses'	=> 'ActivityController@publish'
+]);

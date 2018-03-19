@@ -9,6 +9,7 @@ use App\Models\QuizItem;
 use App\Models\QuizItemPivot;
 use App\Models\StudentQuiz;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateExamPostRequest;
 
 class ExamController extends Controller
 {
@@ -24,9 +25,14 @@ class ExamController extends Controller
 
 	public function index(Request $request)
 	{
-		$subjects = Subject::where('teacher_id', Auth::user()->id)->get()->pluck('id');
+		$subjects = Subject::where('teacher_id', Auth::user()->id)
+							->get()
+							->pluck('id');
 
-    	$exams  = Quiz::with('subject')->where('quiz_type', Quiz::EXAM)->whereIn('id', $subjects)->get();
+    	$exams  = Quiz::with('subject')
+    					->where('quiz_type', Quiz::EXAM)
+    					->whereIn('subject_id', $subjects)
+    					->get();
 
     	$subjectQuizItemCount = \DB::table('quizzes')
     								->select('*')
@@ -83,9 +89,10 @@ class ExamController extends Controller
         return view('exams.items.create', compact('exam', 'collatedSubjectQuestions', 'exam'));
 	}
 
-	public function saveItems(Request $request, $exam_id)
+	public function saveItems(CreateExamPostRequest $request, $exam_id)
 	{
-		$items = $request->get('items');
+		$items = $request->get('items', []);
+
 		$exam = Quiz::find($exam_id);
 
 		// Delete Past Items

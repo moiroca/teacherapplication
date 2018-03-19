@@ -11,14 +11,18 @@ class TeacherController extends Controller
 {
     public function index(Request $request)
     {
-    	$teachers = User::where('role', 1)->get();
+    	$teachers = User::where('role', 1)
+    					->orderBy('is_confirmed', 'DESC')
+    					->get();
 
     	return view('admin.teachers.list', compact('teachers'));
     }
 
     public function subjects(Request $request, $teacher_id)
     {
-    	$subjects = Subject::with('students')->where('teacher_id', $teacher_id)->get();
+    	$subjects = Subject::with('students')
+    					->where('teacher_id', $teacher_id)
+    					->get();
 
     	return view('admin.teachers.subjects.list', compact('subjects'));
     }
