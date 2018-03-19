@@ -38,7 +38,7 @@
                                 </span>
                             @endif
                         </td>
-                        <td>{{ $quizItem->answer }}</td>
+                        <td>{{ $quizItem->student_answer }}</td>
                     </tr>
                 @endforeach
                 <tr>

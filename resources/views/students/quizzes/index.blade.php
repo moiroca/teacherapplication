@@ -24,7 +24,7 @@
                         <th scope="row">{{ $index + 1 }}</th>
                         <td>{{ $quiz->title }}</td>
                         <td>
-                            <a href="{{ route('students.quizzes.take', ['quiz_id' => $quiz->id]) }}"><i class='fa fa-bomb'></i> Take Quiz</a> | 
+                            <a href="{{ route('students.quizzes.take', ['quiz_id' => $quiz->id]) }}"><i class='fa fa-bomb'></i> Take Exam/Quiz</a> | 
                             <a href="{{ route('students.quizzes.take', ['quiz_id' => $quiz->id]) }}"><i class='fa fa-bar-chart'></i> View Score</a>
                         </td>
                     </tr>

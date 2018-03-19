@@ -98,7 +98,8 @@ class QuizController extends Controller
                     quiz_items.id as quiz_item_id,
                     quiz_items.question,
                     quiz_options.content as correct_answer,
-                    quiz_options.content as content
+                    quiz_options.content as content,
+                    quiz_items.quiz_item_type
                 from quiz_items
                 left join quiz_options on quiz_items.id = quiz_options.quiz_item_id
                 join quiz_items_pivot on quiz_items_pivot.item_id = quiz_items.id 
@@ -114,7 +115,8 @@ class QuizController extends Controller
                     quiz_items.id as quiz_item_id,
                     quiz_items.question,
                     quiz_options.id as correct_answer,
-                    quiz_options.content as content
+                    quiz_options.content as content,
+                    quiz_items.quiz_item_type
                 from quiz_items
                 left join quiz_options on quiz_items.id = quiz_options.quiz_item_id
                 join quiz_items_pivot on quiz_items_pivot.item_id = quiz_items.id 
@@ -129,13 +131,21 @@ class QuizController extends Controller
                 question_answers.correct_answer,
                 question_answers.content,
                 student_quiz_answers.answer,
+                if(question_answers.quiz_item_type = 2, quiz_options.content, student_quiz_answers.answer) as student_answer,
                 if(question_answers.correct_answer = student_quiz_answers.answer, 1, 0) as is_correct
             ')
             ->leftJoin(
-                    'student_quiz_answers', 
-                    'student_quiz_answers.quiz_item_id', 
-                    '=', 
-                    'question_answers.quiz_item_id')
+                'student_quiz_answers', 
+                'student_quiz_answers.quiz_item_id', 
+                '=', 
+                'question_answers.quiz_item_id'
+            )
+            ->leftJoin(
+                'quiz_options',
+                'quiz_options.id',
+                '=',
+                'student_quiz_answers.answer'
+            )
             ->where('student_quiz_answers.student_quiz_id', $student_quiz_id)
             ->get();
 
