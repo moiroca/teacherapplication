@@ -91,7 +91,7 @@
                         window.location.reload();
                     });
                 } else {
-                    swal("", "Good job! Think before you click!", "success");
+                    swal("", "You can un-enroll this student later.", "success");
                 }
             });
 
