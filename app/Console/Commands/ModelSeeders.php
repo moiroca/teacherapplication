@@ -96,6 +96,7 @@ class ModelSeeders extends Command
             'name' => 'Mike Gibson',
             'email' => 'mike.gibson@example.com',
             'role'  => 2,
+            'is_confirmed' => 1,
             'password' => bcrypt('password'),
         ]);
 

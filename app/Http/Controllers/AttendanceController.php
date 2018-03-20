@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SubjectStudent;
 use App\Models\Attendance;
+use App\Models\Subject;
 use App\Models\StudentAttendance;
 
 class AttendanceController extends Controller
 {
 	public function index(Request $request, $subject_id)
 	{
+        $subject = Subject::find($subject_id);
 		$attendances = Attendance::with('inattendance')->where('subject_id', $subject_id)->get();
 
-		return view('attendance.index', compact('attendances'));
+		return view('attendance.index', compact('attendances', 'subject'));
 	}
 
 	public function show(Request $request, $attendance_id)

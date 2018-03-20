@@ -51,10 +51,19 @@ class SubjectController extends Controller
 
     public function delete(Request $request, $subject_id)
     {
-        $hasDependency = false;
-        $isForce = $request->get('is_force', false);
-        $subject = Subject::with(['quizzes', 'attendances', 'modules', 'students'])->find($subject_id);
+        // $hasDependency = false;
+        // $isForce = $request->get('is_force', false);
+        // $subject = Subject::with(['quizzes', 'attendances', 'modules', 'students'])->find($subject_id);
 
+        Subject::find($subject_id)->delete();
+
+        return response()->json([
+            'success' => true,
+            'has_dependency' => false,
+            'msg' => "Success"
+        ]);
+
+        /*
         if (!$isForce) {
             $hasQuizDependency          = ($subject->quizzes->count() != 0) ? true : false;
             $hasAttendanceDependency    = ($subject->attendances->count() != 0) ? true : false;
@@ -110,5 +119,6 @@ class SubjectController extends Controller
                 'msg' => "Success"
             ]);
         }
+        */
     }
 }

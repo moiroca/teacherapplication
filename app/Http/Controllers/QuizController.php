@@ -111,8 +111,9 @@ class QuizController extends Controller
         }
 
         $subject = Subject::with('students')->find($subject_id);
-        $enrolledStudents = $subject->students;
 
+        $enrolledStudents = $subject->students;
+        
         $studentExamResult = \DB::table(\DB::raw('users'))
                                 ->leftJoin(\DB::raw('(
                                     SELECT 
