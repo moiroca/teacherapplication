@@ -58,7 +58,7 @@ Route::group(['prefix' => 'user'], function () {
 
 	Route::post('/update', [
 		'as'	=> 'user.update.save',
-		'uses'	=> 'UserController@updateIdentificationQuiz'
+		'uses'	=> 'UserController@saveUpdate'
 	]);
 });
 
