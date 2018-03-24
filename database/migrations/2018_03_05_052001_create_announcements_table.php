@@ -15,7 +15,11 @@ class CreateAnnouncementsTable extends Migration {
 		Schema::create('announcements', function (Blueprint $table) {
 			$table->increments('id');
 			$table->longText('content');
-			$table->unsignedInteger('owner_id');
+			$table->unsignedInteger('subject_id');
+
+			$table->foreign('subject_id')
+					->references('id')
+					->on('subjects');
 		});
 	}
 
@@ -26,6 +30,10 @@ class CreateAnnouncementsTable extends Migration {
 	 */
 	public function down()
 	{
+		Schema::table('announcements', function (Blueprint $table) {
+			$table->dropForeign('announcements_subject_id_foreign');
+		});
+
 		Schema::drop('announcements');
 	}
 

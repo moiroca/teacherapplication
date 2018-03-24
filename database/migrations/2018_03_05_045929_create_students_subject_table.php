@@ -16,6 +16,14 @@ class CreateStudentsSubjectTable extends Migration {
 			$table->increments('id');
 			$table->unsignedInteger('subject_id');
 			$table->unsignedInteger('student_id');
+
+			$table->foreign('subject_id')
+					->references('id')
+					->on('subjects');
+
+			$table->foreign('student_id')
+					->references('id')
+					->on('users');
 		});
 	}
 
@@ -26,6 +34,11 @@ class CreateStudentsSubjectTable extends Migration {
 	 */
 	public function down()
 	{
+		Schema::table('student_subjects', function (Blueprint $table) {
+			$table->dropForeign('student_subjects_subject_id_foreign');
+			$table->dropForeign('student_subjects_student_id_foreign');
+		});
+
 		Schema::drop('student_subjects');
 	}
 

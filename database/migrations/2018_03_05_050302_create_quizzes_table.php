@@ -16,6 +16,10 @@ class CreateQuizzesTable extends Migration {
 			$table->increments('id');
 			$table->unsignedInteger('subject_id');
 			$table->string('title');
+
+			$table->foreign('subject_id')
+					->references('id')
+					->on('subjects');
 		});
 	}
 
@@ -26,6 +30,10 @@ class CreateQuizzesTable extends Migration {
 	 */
 	public function down()
 	{
+		Schema::table('quizzes', function (Blueprint $table) {
+			$table->dropForeign('quizzes_subject_id_foreign');
+		});
+
 		Schema::drop('quizzes');
 	}
 

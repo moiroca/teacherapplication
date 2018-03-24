@@ -16,6 +16,10 @@ class CreateAttendanceTable extends Migration {
 			$table->increments('id');
 			$table->dateTime('date');
 			$table->unsignedInteger('subject_id');
+
+			$table->foreign('subject_id')
+					->references('id')
+					->on('subjects');
 		});
 	}
 
@@ -26,6 +30,10 @@ class CreateAttendanceTable extends Migration {
 	 */
 	public function down()
 	{
+		Schema::table('attendance', function (Blueprint $table) {
+			$table->dropForeign('attendance_subject_id_foreign');
+		});
+		
 		Schema::drop('attendance');
 	}
 
