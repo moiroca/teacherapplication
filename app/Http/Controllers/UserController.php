@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\UpdateUserInformation;
+use App\Http\Requests\UserUpdateInfoPostRequest;
 
 class UserController extends Controller
 {
@@ -26,6 +27,9 @@ class UserController extends Controller
 		]);
 	}
 
+	/**
+	 * Admin Tries To Update
+	 */
 	public function update(Request $request, $user_id)
 	{
 		$user = User::find($user_id);
@@ -33,29 +37,68 @@ class UserController extends Controller
 		return view('admin.users.update', compact('user'));
 	}
 
+	/**
+	 * User Tries To Update Own Profile
+	 */
+	public function userUpdate(Request $request)
+	{
+		$user = \Auth::user();
+
+		return view('admin.users.info', compact('user'));
+	}
+
+	/**
+	 * Save User Tries To Update Own Profile
+	 */
+	public function saveUserUpdate(UserUpdateInfoPostRequest $request)
+	{
+		$name 		= $request->get('name');
+		$username	= $request->get('username');
+		$password	= $request->get('password');
+
+		$data = [
+			'name'		=> $name,
+			'password'	=> bcrypt($password)
+		];
+
+		$user = \Auth::user();
+		$userWithEmail = User::where('username', $username)->first();
+
+		if ($user->username != $username && $userWithEmail) {
+			return redirect()->back()->withErrors(['username' => 'Username already in use.']);
+		}
+
+		if ($user->username != $username && !$userWithEmail) {
+			$data['username'] = $username;
+		}
+
+		$user->fill($data);
+		$user->save();
+
+		return redirect()->back();
+	}
+
 	public function saveUpdate(UpdateUserInformation $request)
 	{
 		$user_id	= $request->get('user_id');
 		$name 		= $request->get('name');
-		$password 	= $request->get('password');
-		$email		= $request->get('email');
+		$username		= $request->get('username');
 		$is_confirmed = $request->get('is_confirmed');
 
 		$data = [
 			'name' 			=> $name,
 			'is_confirmed'	=> $is_confirmed,
-			'password' 		=> bcrypt($password),
 		];
 
 		$user = User::find($user_id);
-		$userWithEmail = User::where('email', $email)->first();
+		$userWithEmail = User::where('username', $username)->first();
 
-		if ($user->email != $email && $userWithEmail) {
-			return redirect()->back()->withErrors(['email' => 'Email already in use.']);
+		if ($user->username != $username && $userWithEmail) {
+			return redirect()->back()->withErrors(['username' => 'Email already in use.']);
 		}
 
-		if ($user->email != $email && !$userWithEmail) {
-			$data['email'] = $email;
+		if ($user->username != $username && !$userWithEmail) {
+			$data['username'] = $username;
 		}
 
 		$user->fill($data);

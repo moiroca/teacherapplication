@@ -66,6 +66,16 @@ Route::group(['prefix' => 'user'], function () {
 		'uses'	=> 'UserController@update'
 	]);
 
+	Route::get('/update-user', [
+		'as'	=> 'update.user.create',
+		'uses'	=> 'UserController@userUpdate'
+	]);
+
+	Route::post('/update-user', [
+		'as'	=> 'update.user.save',
+		'uses'	=> 'UserController@saveUserUpdate'
+	]);
+
 	Route::post('/update', [
 		'as'	=> 'user.update.save',
 		'uses'	=> 'UserController@saveUpdate'
