@@ -51,13 +51,13 @@ class ModelSeeders extends Command
      */
     public function handle()
     {
-        // $this->seedAdmin();
-        // $this->seedTeachers();
-        // $this->seedStudents();
-        // $this->seedSchoolYear();
-        // $this->seedSubjects();
-        // $this->seedJohnDoeData();
-        // $this->enrollMikeFromDoeSubject();
+        $this->seedAdmin();
+        $this->seedTeachers();
+        $this->seedStudents();
+        $this->seedSchoolYear();
+        $this->seedSubjects();
+        $this->seedJohnDoeData();
+        $this->enrollMikeFromDoeSubject();
         $this->seedAnnouncements();
     }
 
