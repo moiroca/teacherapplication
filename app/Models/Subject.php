@@ -18,7 +18,7 @@ class Subject extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'teacher_id'
+        'name', 'teacher_id', 'school_year_id', 'semester', 'period', 'enrollment_key'
     ];
 
     public $timestamps = false;
@@ -41,5 +41,20 @@ class Subject extends Model
     public function students()
     {
         return $this->belongsToMany(User::class, 'student_subjects', 'subject_id', 'student_id');
+    }
+
+    public function schoolyear()
+    {
+        return $this->hasOne(SchoolYear::class, 'id', 'school_year_id');
+    }
+
+    public function teacher()
+    {
+        return $this->hasOne(User::class, 'id', 'teacher_id');
+    }
+
+    public function announcements()
+    {
+        return $this->hasMany(Announcement::class, 'id');
     }
 }

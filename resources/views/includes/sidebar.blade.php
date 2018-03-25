@@ -5,7 +5,6 @@
         </div>
         
         <div class="clearfix"></div>
-        
         <!-- menu profile quick info -->
         <!-- <div class="profile">
             <div class="profile_pic">
@@ -29,6 +28,12 @@
                             <a href="{{ route('announcements.index') }}">
                                 <i class="fa fa-bullhorn"></i>
                                 Announcements
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('modules.index') }}">
+                                <i class="fa fa-file"></i>
+                                Modules
                             </a>
                         </li>
                         <li><a><i class="fa fa-file-text"></i> Exam Management <span class="fa fa-chevron-down"></span></a>
@@ -88,7 +93,13 @@
                         <li>
                             <a href="{{ route('students.subjects') }}">
                                 <i class="fa fa-flask"></i>
-                                Subjects
+                                Enrolled Subjects
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('students.subjects.list') }}">
+                                <i class="fa fa-flask"></i>
+                                View All Subjects
                             </a>
                         </li>
                     </ul>

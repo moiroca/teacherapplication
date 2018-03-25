@@ -19,12 +19,12 @@
             class="form-horizontal form-label-left">
     		<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
-            <div class="form-group {{ ($errors->has('announcement')) ? 'has-error' : '' }}">
-                <label for="announcement" class="control-label">Announcement</label>
+            <div class="form-group {{ ($errors->has('module')) ? 'has-error' : '' }}">
+                <label for="module" class="control-label">Name</label>
                 <div>
-                    <textarea class="form-control" id="announcement" name="announcement" cols="50" rows="10"></textarea>
-                    @if($errors->has('announcement'))
-                        <span class="help-block">{{ $errors->first('announcement') }}</span>
+                    <input type='text' class="form-control" id="module" name="module" /">
+                    @if($errors->has('module'))
+                        <span class="help-block">{{ $errors->first('module') }}</span>
                     @endif
                 </div>
             </div>
@@ -39,7 +39,7 @@
             </div>
     		<div class="ln_solid"></div>
             <div class="form-group">
-                <div><button class="btn btn-success" type="submit"><i class='fa fa-save'></i> Save Announcement</button></div></div>
+                <div><button class="btn btn-success" type="submit"><i class='fa fa-save'></i> Save Module</button></div></div>
     	</form>
     </div>
     <!-- /page content -->

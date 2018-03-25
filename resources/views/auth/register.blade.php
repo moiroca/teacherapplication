@@ -28,13 +28,11 @@
 
 			{!! BootForm::text('name', 'Name', old('name'), ['placeholder' => 'Full Name']) !!}
 
-			{!! BootForm::email('email', 'Email', old('email'), ['placeholder' => 'Email']) !!}
+			{!! BootForm::text('student_id', 'Student ID', old('student_id'), ['placeholder' => 'Student ID']) !!}
 
 			{!! BootForm::password('password', 'Password', ['placeholder' => 'Password']) !!}
 
 			{!! BootForm::password('password_confirmation', 'Password confirmation', ['placeholder' => 'Confirmation']) !!}
-		
-		   	{!! BootForm::select('role', 'Are you a?', [1 => 'Teacher', 2 => 'Student'], 1) !!}
 
 			{!! BootForm::submit('Register', ['class' => 'btn btn-default']) !!}
 

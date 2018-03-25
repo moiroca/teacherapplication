@@ -14,7 +14,7 @@ class StudentQuiz extends Model
      * @var array
      */
     protected $fillable = [
-        'student_id', 'quiz_id'
+        'student_id', 'attempt_id', 'status', 'end_datetime'
     ];
 
     public $timestamps = false;

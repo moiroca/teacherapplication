@@ -1,6 +1,18 @@
 @extends('layouts.blank')
 
 @push('stylesheets')
+    <!-- Example -->
+    <!--<link href=" <link href="{{ asset("css/myFile.min.css") }}" rel="stylesheet">" rel="stylesheet">-->
+
+    <style type="text/css">
+        .is-mistake {
+            color: #f37878;    
+            font-weight: bold;
+        }
+        a.result:hover {
+            text-decoration: underline;
+        }
+    </style>
     <!-- Datatables -->
     <link href="{{ asset('datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}" rel="stylesheet">
@@ -15,31 +27,41 @@
     <div class="right_col" role="main">
         <div class="x_panel">
             <div class="x_title">
-                <h2>{{ $subject->name }} Exams<small> List of exams.</small></h2> 
+                <h2>{{ $quiz->title }} Quiz Atempts Score<small> See how you perform</small></h2>
+                <?php $quiz_item_total = $quiz->items->count(); ?>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th>Title</th>
-                            <th>Items</th>
-                            <th>Action</th>
+                            <th>Attempt</th>
+                            <th>Score</th>
+                            <th>Percentage</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($exams as $index => $exam)
+                        <?php $now = \Carbon\Carbon::now(); ?>
+                        @foreach($studentActivityResult as $index => $attemptResult)
                             <tr>
+                                <td>{{ $index + 1 }}</td>
                                 <td>
-                                    <a href="{{ route('quiz.items.create', $exam->id) }}">{{ $exam->title }}</a>
-                                </td>
-                                <td>{{ $exam->items->count() }}</td>
-                                <td>
-                                    <a  class='btn btn-sm btn-default' href="{{ route('quizzes.subjects.exam_list.result', ['subject_id' => $exam->subject_id, 'exam_id' => $exam->id]) }}"><i class='fa fa-bullhorn'></i> View Result</a>
-                                    @if(!$exam->allow_review)
-                                        <button data-id="{{ $exam->id }}" class='btn btn-sm btn-success allow-review'><i class='fa fa-eye'></i> Allow Review</button>
+                                    @if(!is_null($attemptResult->score))
+                                        <a 
+                                            class="result" 
+                                            alt="View Detailed Result"
+                                            href="{{ route('students.quizzes.score', [ 'student_quiz_id' => $attemptResult->student_quiz_id ]) }}">
+                                                <strong>{{ $attemptResult->score }} / {{ $quiz_item_total }}</strong>
+                                            </a>
                                     @else
-                                        <button data-id="{{ $exam->id }}" class='btn btn-sm btn-warning allow-review'><i class='fa fa-eye'></i> Disable Review</button>
+                                        <span class='label label-info'>N/A</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(!is_null($attemptResult->score))
+                                        {{ round(($attemptResult->score / $quiz_item_total) * 100) }}%
+                                    @else
+                                        <span class='label label-info'>N/A</span>
                                     @endif
                                 </td>
                             </tr>
@@ -64,20 +86,4 @@
     <script src="{{ asset('datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('datatables.net-responsive-bs/js/responsive.bootstrap.js') }}"></script>
     <script src="{{ asset('datatables.net-scroller/js/dataTables.scroller.min.js') }}"></script>
-
-    <script type="text/javascript">
-        $('button.allow-review').on('click', function () {
-            var btn = $(this);
-
-            $.post({
-                url : "{{ route('quizzes.allow_review') }}",
-                data : {
-                    _token : "{{ csrf_token() }}",
-                    quiz_id : $(btn).attr('data-id')
-                }
-            }, function (response) {
-                window.location.reload();
-            });
-        });
-    </script>
 @endpush

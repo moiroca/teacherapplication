@@ -10,6 +10,7 @@ use App\Models\SubjectStudent;
 use App\Models\SubjectModule;
 use App\Models\Quiz;
 use App\Models\QuizItemPivot;
+use App\Models\SchoolYear;
 
 class SubjectController extends Controller
 {
@@ -25,22 +26,28 @@ class SubjectController extends Controller
 
     public function index(Request $request)
     {
-        $subjects = Subject::where('teacher_id', Auth::user()->id)->get();
+        $subjects = Subject::with(['schoolyear', 'students'])->where('teacher_id', Auth::user()->id)->get();
 
         return view('subject.index', compact('subjects'));
     }
 
     public function create(Request $request)
     {
-        return view('subject.create', compact('subjects'));
+        $schoolYears = SchoolYear::all();
+
+        return view('subject.create', compact('subjects', 'schoolYears'));
     }
 
     public function save(Request $request)
     {
         try {
             Subject::create([
-                'name'            => $request->get('name'),
-                'teacher_id'    => Auth::user()->id,
+                'name'              => $request->get('name'),
+                'teacher_id'        => Auth::user()->id,
+                'school_year_id'    => $request->get('school_year'),
+                'semester'          => $request->get('semester'),
+                'period'            => $request->get('period'),
+                'enrollment_key'    => uniqid()
             ]);
 
             return redirect()->route('subject.index')->with('isSuccess', true);

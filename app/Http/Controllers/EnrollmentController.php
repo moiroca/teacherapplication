@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Subject;
 use App\Models\SubjectStudent;
+use Auth;
 
 class EnrollmentController extends Controller
 {
@@ -48,5 +49,24 @@ class EnrollmentController extends Controller
 		SubjectStudent::where('subject_id', $subject_id)->where('student_id', $student_id)->delete();
 
 		return redirect()->route('enrollment.subject', [ 'subject_id' => $subject_id ]);
+	}
+
+	public function saveStudentEnrollment(Request $request)
+	{
+		$enrollmentKey 	= $request->get('enrollment_key');
+		$subjectId 		= $request->get('subject_id');
+
+		$subject 		= Subject::find($subjectId);
+
+		if ($enrollmentKey == $subject->enrollment_key) {
+			SubjectStudent::create([
+				'subject_id' => $subjectId,
+				'student_id' => Auth::user()->id
+			]);
+
+			return redirect()->route('students.subjects');
+		}
+
+		return redirect()->back()->withErrors(['enrollment_key' => 'Enrollment Key Does Not Match.']);
 	}
 }

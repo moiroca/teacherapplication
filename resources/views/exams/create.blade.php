@@ -36,6 +36,30 @@
     				</select>
     			</div>
     		</div>
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                    Exam Attempts <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input placeholder="Minimum of 1 Attempt" name="attempts" type="number" min=1 max=10 id="attempts" required="required" class="form-control col-md-7 col-xs-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                    Duration <span class="required">* (In Hours)</span>
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input placeholder="Duration in Hours" name="duration" type="number" min=1 max=10 id="duration" required="required" class="form-control col-md-7 col-xs-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                    Expiration <span class="required"></span>
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input name="expiration" type="date" id="expiration" required="required" class="form-control col-md-7 col-xs-12">
+                </div>
+            </div>
     		<div class="ln_solid"></div>
     		<div class="form-group">
     			<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">

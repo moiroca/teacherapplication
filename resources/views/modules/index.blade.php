@@ -15,9 +15,9 @@
     <div class="right_col" role="main">
         <div class="x_panel">
             <div class="x_title">
-                <h2>{{ $subject->name }} Announcements <small> List of subject announcements.</small></h2>
+                <h2>{{ $subject->name }} Modules <small> List of subject modules.</small></h2>
                 <a  class="btn btn-info btn-sm pull-right" href="{{ route('modules.subject', ['subject_id' => $subject->id]) }}">
-                    <i class='fa fa-bullhorn'></i> Create Announcements
+                    <i class='fa fa-bullhorn'></i> Create Module
                 </a>
                 <div class="clearfix"></div>
             </div>
@@ -33,7 +33,7 @@
                         @foreach($subject->modules as $index => $module)
                             <tr>
                                 <td> {{ $module->name }} </td>
-                                <td> <a href="{{ route('announcements.download', ['module_id' => $module->id]) }}"><i class='fa fa-download'></i>  Download</a></td>
+                                <td> <a class='btn btn-sm btn-default' href="{{ route('modules.download', ['module_id' => $module->id]) }}"><i class='fa fa-download'></i>  Download</a></td>
                             </tr>
                         @endforeach
                     </tbody>

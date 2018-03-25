@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AnnouncementPostRequest extends FormRequest
+class AdminTeacherPostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,17 +24,8 @@ class AnnouncementPostRequest extends FormRequest
     public function rules()
     {
         return [
-            'document'      => 'required|mimes:pdf,jpg,jpeg,png,gif|max:2048',
-            'announcement'  => 'required'
-        ];
-    }
-
-
-
-    public function messages()
-    {
-        return [
-            'document.mimes' => 'Only accepts PDF and image file formats (jpg,jpeg,png,gif)'
+            'username'  => 'required|unique:users',
+            'name'      => 'required'
         ];
     }
 }

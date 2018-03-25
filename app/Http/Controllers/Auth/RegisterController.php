@@ -51,10 +51,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
-            'role' => 'required|in:1,2',
+            'name'          => 'required|max:255',
+            'student_id'    => 'required|max:255|exists:users,username',
+            'password'      => 'required|min:6|confirmed'
         ]);
     }
     
@@ -66,12 +65,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'role'    => $data['role'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $student = User::where(['username' => $data['student_id']])->first();
+
+        $student->name      = $data['name'];
+        $student->password  = bcrypt($data['password']);
+
+        $student->update();
+
+        return $student;
     }
 
     /**
@@ -86,7 +87,7 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
-        // $this->guard()->login($user);
+        $this->guard()->login($user);
 
         return $this->registered($request, $user)
                         ?: redirect($this->redirectPath());

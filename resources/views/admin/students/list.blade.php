@@ -27,7 +27,7 @@
                         <tr>
                             <th>#</th>
                             <th>Name <small>(Click Name To Update)</small></th>
-                            <th>Email</th>
+                            <th>Username</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -36,7 +36,7 @@
                             <tr>
                                 <td scope="row">{{ $index + 1 }}</td>
                                 <td><a href="{{ route('user.update.index', ['user_id' => $student->id]) }}">{{ $student->name }}</a></td>
-                                <td>{{ $student->email }}</td>
+                                <td>{{ $student->username }}</td>
                                 <td>
                                     @if($student->is_confirmed)
                                         <button data-id="{{ $student->id }}" data-confirm="0" type='submit' class='confirm btn btn-warning btn-sm' href="#"><i class='fa fa-mortar-board'></i> Un Confirm</button>

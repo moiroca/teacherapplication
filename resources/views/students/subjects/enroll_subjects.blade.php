@@ -1,7 +1,7 @@
 @extends('layouts.blank')
 
 @push('stylesheets')
-    <!-- Datatables -->
+    <!-- Example -->
     <link href="{{ asset('datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
@@ -15,32 +15,42 @@
     <div class="right_col" role="main">
         <div class="x_panel">
             <div class="x_title">
-                <h2>{{ $subject->name }} Exams<small> List of exams.</small></h2> 
-                <div class="clearfix"></div>
+              <h2>Subjects List <small> List of subjects enrolled. </small></h2>
+              <div class="clearfix"></div>
             </div>
             <div class="x_content">
+                @if($errors->has('enrollment_key'))
+                    <div class='alert alert-danger'>
+                        <strong>Error!</strong> {{ $errors->first('enrollment_key') }}
+                    </div>
+                @endif
                 <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th>Title</th>
-                            <th>Items</th>
+                            <th>Name</th>
+                            <th>Teacher</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($exams as $index => $exam)
+                        @foreach($subjects as $index => $subject)
                             <tr>
+                                <td>{{ $subject->name }}</td>
+                                <td>{{ $subject->teacher->name }}</td>
                                 <td>
-                                    <a href="{{ route('quiz.items.create', $exam->id) }}">{{ $exam->title }}</a>
-                                </td>
-                                <td>{{ $exam->items->count() }}</td>
-                                <td>
-                                    <a  class='btn btn-sm btn-default' href="{{ route('quizzes.subjects.exam_list.result', ['subject_id' => $exam->subject_id, 'exam_id' => $exam->id]) }}"><i class='fa fa-bullhorn'></i> View Result</a>
-                                    @if(!$exam->allow_review)
-                                        <button data-id="{{ $exam->id }}" class='btn btn-sm btn-success allow-review'><i class='fa fa-eye'></i> Allow Review</button>
-                                    @else
-                                        <button data-id="{{ $exam->id }}" class='btn btn-sm btn-warning allow-review'><i class='fa fa-eye'></i> Disable Review</button>
-                                    @endif
+                                    <button class='btn btn-info btn-sm enroll'><i class='fa fa-bar-chart'></i> Enroll Subject</button>
+                                    <form method="POST" action="{{ route('enrollment.student.subject.save', ['subject_id' => $subject->id ]) }}" style="display: none;" class="form-inline">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="subject_id" value="{{ $subject->id }}">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="enrollment_key" placeholder="Enter Enrollment Key">
+                                            <span class="input-group-btn">
+                                                <button type="submit" class="btn btn-info">
+                                                    <i class='fa fa-save fa-lg'></i> Enroll
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
@@ -51,8 +61,8 @@
     </div>
     <!-- /page content -->
 @endsection
-
 @push('scripts')
+    <!-- Example -->
     <script src="{{ asset('datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('datatables.net-buttons/js/dataTables.buttons.min.js') }}" ></script>
     <script src="{{ asset('datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>
@@ -66,18 +76,19 @@
     <script src="{{ asset('datatables.net-scroller/js/dataTables.scroller.min.js') }}"></script>
 
     <script type="text/javascript">
-        $('button.allow-review').on('click', function () {
+        $('button.enroll').on('click', function () {
             var btn = $(this);
+            var form = btn.siblings('form');
 
-            $.post({
-                url : "{{ route('quizzes.allow_review') }}",
-                data : {
-                    _token : "{{ csrf_token() }}",
-                    quiz_id : $(btn).attr('data-id')
-                }
-            }, function (response) {
-                window.location.reload();
-            });
+            form.show();
+            btn.hide();
+        });
+
+        $('.enroll-submit').on('click', function () {
+            var submit_btn  = $(this);
+            var form        = submit_btn.parents('form');
+
+            form.submit();
         });
     </script>
 @endpush

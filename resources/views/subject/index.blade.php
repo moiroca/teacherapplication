@@ -26,13 +26,39 @@
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <td>Enrollment Key</td>
+                            <td>School Year</td>
+                            <td>Semester</td>
+                            <td>Period</td>
                             <th>Total Student Count</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($subjects as $index => $subject)
                             <tr>
-                                <td><a href="{{ route('subject.students', $subject->id) }}">{{ $subject->name }}</a></td>
+                                <td>
+                                    <a href="{{ route('subject.students', $subject->id) }}">{{ $subject->name }}</a>
+                                </td>
+                                <td>{{ $subject->enrollment_key }}</td>
+                                <td>
+                                    {{ $subject->schoolyear->from }} - {{ $subject->schoolyear->to }}
+                                </td>
+                                <td>
+                                    {{ config('app.semesters')[$subject->semester] }}
+                                </td>
+                                <td>
+                                    {{ config('app.periods')[$subject->period] }}
+                                </td>
+                                <td>
+                                    <?php $studentCount = $subject->students->count(); ?>
+                                    @if($studentCount <= 0)
+                                        <span class="label label-warning">Empty</span>
+                                    @else
+                                        <span class='label label-info'>{{ $studentCount }}</span>
+                                    @endif
+                                    
+                                </td>
                                 <td>
                                     <a class='btn btn-default btn-sm' href="{{ route('modules.subject.index', ['subject_id' => $subject->id]) }}"> 
                                         <i class='fa fa-bullhorn'></i> View Announcements

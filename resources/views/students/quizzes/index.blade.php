@@ -23,16 +23,47 @@
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Expiration</th>
+                            <th>Attempts Taken</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php 
+                            $now = \Carbon\Carbon::now();
+                        ?>
                         @foreach($activities as $index => $quiz)
+                            <?php 
+                                $quizExpiration = \Carbon\Carbon::parse($quiz->expiration);
+                            ?>
                             <tr>
-                                <td>{{ $quiz->title }}</td>
                                 <td>
-                                    <a class='btn btn-info btn-sm' href="{{ route('students.quizzes.take', ['quiz_id' => $quiz->id]) }}"><i class='fa fa-bomb'></i> Take Exam/Quiz</a>
-                                    <a class='btn btn-default btn-sm' href="{{ route('students.quizzes.take', ['quiz_id' => $quiz->id]) }}"><i class='fa fa-bar-chart'></i> View Score</a>
+                                    <strong>{{ $quiz->title }} </strong> <small>Duration : {{ $quiz->duration }} Hour(s)</small>
+                                </td>
+                                <td>
+                                    @if($quizExpiration->lt($now))
+                                        <label class='label label-danger'>Expired</label>
+                                    @else
+                                        Expires in : 
+                                        <span class='label label-success'>
+                                            {{ $quizExpiration->diffForHumans($now) }}
+                                        </span>
+                                    @endif
+                                </td>
+                                <td> 
+                                    <span class='label label-info'>
+                                    {{ $quiz->attempts }} out of {{ $quiz->total_attempt }} Attempts
+                                    </span> 
+                                </td>
+                                <td>
+                                    @if($quiz->attempts < $quiz->total_attempt && !$quizExpiration->lt($now))
+                                        <a 
+                                            class='btn btn-info btn-sm' 
+                                            href="{{ route('students.quizzes.take', ['quiz_id' => $quiz->id]) }}">
+                                                <i class='fa fa-bomb'></i> Take Exam/Quiz
+                                        </a>
+                                    @endif
+                                    <a class='btn btn-default btn-sm' href="{{ route('students.quiz_atempts.result', ['quiz_id' => $quiz->id]) }}"><i class='fa fa-bar-chart'></i> View Result</a>
                                 </td>
                             </tr>
                          @endforeach

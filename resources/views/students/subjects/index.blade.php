@@ -32,7 +32,7 @@
                                 <td>{{ $subject->name }}</td>
                                 <td>
                                     <a class='btn btn-info btn-sm' href="{{ route('students.attendances', ['subject_id' => $subject->id]) }}"><i class='fa fa-bar-chart'></i> View Attendance</a>
-                                    <a class='btn btn-default btn-sm' href="{{ route('students.quizzes', ['subject_id' => $subject->id]) }}"><i class='fa fa-file-text'></i> View Exams/Quizzes</a>
+                                    <a class='btn btn-success btn-sm' href="{{ route('students.quizzes', ['subject_id' => $subject->id]) }}"><i class='fa fa-file-text'></i> View Exams/Quizzes</a>
                                 </td>
                             </tr>
                         @endforeach

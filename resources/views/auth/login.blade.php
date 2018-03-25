@@ -28,7 +28,7 @@
                 
 				<h4>{{ config('app.name') }} Login</h4>
 			
-				{!! BootForm::email('email', 'Email', old('email'), ['placeholder' => 'Email', 'afterInput' => '<span>test</span>'] ) !!}
+				{!! BootForm::text('username', 'Username', old('username'), ['placeholder' => 'Username', 'afterInput' => '<span>test</span>'] ) !!}
 			     
 				{!! BootForm::password('password', 'Password', ['placeholder' => 'Password']) !!}
 				

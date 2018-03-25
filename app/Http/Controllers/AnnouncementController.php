@@ -6,6 +6,7 @@ use Auth;
 use Illuminate\Http\Request;
 use App\Models\Subject;
 use App\Models\Module;
+use App\Models\Announcement;
 use Illuminate\Support\Facades\Storage;
 
 class AnnouncementController extends Controller
@@ -27,9 +28,30 @@ class AnnouncementController extends Controller
     	return view('announcements.subjects', compact('subjects'));
 	}
 
-    public function download(Request $request, $module_id)
+    public function list(Request $request, $subject_id)
     {
-        $module = Module::find($module_id);
-        return response()->download(storage_path('/app/' . $module->path));
+        $subject = Subject::find($subject_id);
+        $announcements = Announcement::where('subject_id', $subject->id)
+                                    ->orderBy('created_at', 'DESC')
+                                    ->get();
+
+        return view('announcements.index', compact('announcements', 'subject'));
+    }
+
+    public function create(Request $request, $subject_id)
+    {
+        $subject = Subject::find($subject_id);
+
+        return view('announcements.create', compact('subject'));
+    }
+
+    public function save(Request $request, $subject_id)
+    {
+        Announcement::create([
+            'content'   => $request->get('content'),
+            'subject_id'=> $subject_id
+        ]);
+
+        return redirect()->route('announcements.list', ['subject_id' => $subject_id]);
     }
 }

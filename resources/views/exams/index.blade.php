@@ -7,6 +7,13 @@
     <link href="{{ asset('datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
+    <style type="text/css">
+        .duration:hover {
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
 @endpush
 
 @section('main_container')
@@ -25,6 +32,7 @@
                     <thead>
                         <tr>
                             <th>Title</th>
+                            <th>Duration <small>(Click Duration To Edit)</small></th>
                             <th>Status</th>
                             <th>Subject</th>
                         </tr>
@@ -33,6 +41,22 @@
                         @foreach($exams as $index => $exam)
                             <tr>
                                 <td><a href="{{ route('exams.items.create', $exam->id) }}">{{ $exam->title }}</a></td>
+                                <td>
+                                    <span class='duration'>
+                                        {{ $exam->duration }}
+                                    </span>
+                                    <form method="POST" action="{{ route('activity.duration.update') }}" style="display: none;" class="form-inline">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="activity_type" value="{{ \App\Models\Quiz::EXAM }}">
+                                        <input type="hidden" name="activity_id" value="{{ $exam->id }}">
+                                        <div class="form-group">
+                                            <input type="number" id="duration" name="duration" class="form-control" value="{{ $exam->duration }}">
+                                        </div>
+                                        <button type="submit" class="btn btn-default btn-primary">
+                                            <i class='fa fa-save'></i> Update Duration
+                                        </button>
+                                    </form>
+                                </td>
                                 <td>
                                     @if($exam->isDraft())
                                         <span class="label label-warning">
@@ -67,4 +91,12 @@
     <script src="{{ asset('datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('datatables.net-responsive-bs/js/responsive.bootstrap.js') }}"></script>
     <script src="{{ asset('datatables.net-scroller/js/dataTables.scroller.min.js') }}"></script>
+    <script type="text/javascript">
+        $('span.duration').on('click', function () {
+            var duration = $(this);
+            var form = duration.siblings('form');
+            form.show();
+            duration.hide();
+        });
+    </script>
 @endpush

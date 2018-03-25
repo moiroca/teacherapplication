@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddIsconfirmedColumnUsersTable extends Migration
+class ChangeEmailToUsernameUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,9 @@ class AddIsconfirmedColumnUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->smallInteger('is_confirmed')->default(1);
+            // $table->renameColumn('email', 'username');
+            $table->dropColumn('email');
+            $table->string('username')->unique();
         });
     }
 
@@ -26,7 +28,7 @@ class AddIsconfirmedColumnUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('is_confirmed')->default(1);
+            $table->dropColumn('username');
         });
     }
 }

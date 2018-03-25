@@ -7,6 +7,11 @@
     <link href="{{ asset('datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
+    <style type="text/css">
+        .status {
+            cursor: pointer;
+        }
+    </style>
 @endpush
 
 @section('main_container')
@@ -24,7 +29,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Status</th>
+                            <th>Status <small>(Toggle To Mark As Absent/Present)</small></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,9 +39,9 @@
                                 <td>{{ $subjectStudent->student->email }}</td>
                                 <td>
                                     @if(in_array($subjectStudent->student->id, $studentAttendance))
-                                        <span class='label label-success'>PRESENT</span>
+                                        <span data-student-id="{{ $subjectStudent->student->id }}" data-value="2" class='status label label-success'>PRESENT</span>
                                     @else
-                                        <span class='label label-warning'>ABSENT</span>
+                                        <span data-student-id="{{ $subjectStudent->student->id }}" data-value="1" class='status label label-warning'>ABSENT</span>
                                     @endif
                                 </td>
                             </tr>
@@ -61,4 +66,19 @@
     <script src="{{ asset('datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('datatables.net-responsive-bs/js/responsive.bootstrap.js') }}"></script>
     <script src="{{ asset('datatables.net-scroller/js/dataTables.scroller.min.js') }}"></script>
+    <script type="text/javascript">
+        $('span.status').on('click', function () {
+            $.post({
+                method : "POST",
+                url : "{{ route('attendance.toggle', ['attendance_id' => $attendance->id]) }}",
+                data : {
+                    value : $(this).attr('data-value'),
+                    student_id : $(this).attr('data-student-id'),
+                    _token : "{{ csrf_token() }}"
+                }
+            }, function (response) {
+                window.location.reload();
+            });
+        });
+    </script>
 @endpush

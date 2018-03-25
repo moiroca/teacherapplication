@@ -15,32 +15,24 @@
     <div class="right_col" role="main">
         <div class="x_panel">
             <div class="x_title">
-                <h2>{{ $subject->name }} Exams<small> List of exams.</small></h2> 
+                <h2> {{ $subject->name }} Announcements <small> List of subject with announcements.</small></h2>
+                <a class="btn btn-sm btn-info pull-right" href="{{ route('announcements.create', ['subject_id' => $subject->id]) }}"><i class="fa fa-plus"></i> Create Announcements</a>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th>Title</th>
-                            <th>Items</th>
-                            <th>Action</th>
+                            <th>Announcement</th>
+                            <th>Date</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($exams as $index => $exam)
+                        @foreach($announcements as $index => $announcement)
                             <tr>
+                                <td><a href="{{ route('subject.students', $subject->id) }}">{{ $announcement->content }}</a></td>
                                 <td>
-                                    <a href="{{ route('quiz.items.create', $exam->id) }}">{{ $exam->title }}</a>
-                                </td>
-                                <td>{{ $exam->items->count() }}</td>
-                                <td>
-                                    <a  class='btn btn-sm btn-default' href="{{ route('quizzes.subjects.exam_list.result', ['subject_id' => $exam->subject_id, 'exam_id' => $exam->id]) }}"><i class='fa fa-bullhorn'></i> View Result</a>
-                                    @if(!$exam->allow_review)
-                                        <button data-id="{{ $exam->id }}" class='btn btn-sm btn-success allow-review'><i class='fa fa-eye'></i> Allow Review</button>
-                                    @else
-                                        <button data-id="{{ $exam->id }}" class='btn btn-sm btn-warning allow-review'><i class='fa fa-eye'></i> Disable Review</button>
-                                    @endif
+                                    {{ \Carbon\Carbon::parse($announcement->created_at)->toFormattedDateString() }}
                                 </td>
                             </tr>
                         @endforeach
@@ -48,6 +40,7 @@
                 </table>
             </div>
         </div>
+
     </div>
     <!-- /page content -->
 @endsection
@@ -64,20 +57,4 @@
     <script src="{{ asset('datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('datatables.net-responsive-bs/js/responsive.bootstrap.js') }}"></script>
     <script src="{{ asset('datatables.net-scroller/js/dataTables.scroller.min.js') }}"></script>
-
-    <script type="text/javascript">
-        $('button.allow-review').on('click', function () {
-            var btn = $(this);
-
-            $.post({
-                url : "{{ route('quizzes.allow_review') }}",
-                data : {
-                    _token : "{{ csrf_token() }}",
-                    quiz_id : $(btn).attr('data-id')
-                }
-            }, function (response) {
-                window.location.reload();
-            });
-        });
-    </script>
 @endpush

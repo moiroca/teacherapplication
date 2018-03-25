@@ -28,17 +28,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($studentExamResult as $index => $studentExam)
+                        @foreach($enrolledStudents as $index => $student)
                             <tr>
-                                <td>{{ $studentExam->student_name }}</td>
+                                <td>{{ $student->name }}</td>
                                 <td>
-                                    @if(is_null($studentExam->score))
-                                        <span class="label label-info">N/A</span>
-                                    @elseif($studentExam->score == $examItemCount)
-                                        <span class="label label-success">{{ $studentExam->score }} out of {{ $examItemCount }}</span>
-                                    @else 
-                                        <span class="label label-default">{{ $studentExam->score }} out of {{ $examItemCount }}</span>
-                                    @endif
+                                    <a href="{{ route('students.quiz_atempts.student.result', [
+                                        'quiz_id'       => $exam->id,
+                                        'student_id'    => $student->id
+                                    ]) }}" class='btn btn-info btn-sm'>
+                                        <i class="fa fa-list"></i> View Individual Results
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

@@ -19,6 +19,7 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>Teachers<small> List of all teachers.</small></h2>
+                <a href="{{ route('admin.teachers.create') }}" class='btn btn-primary btn-sm pull-right'><i class='fa fa-plus'></i> Create Teacher</a>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -27,7 +28,7 @@
                         <tr>
                             <th>#</th>
                             <th>Name <small>(Click Name To Update)</small></th>
-                            <th>Email</th>
+                            <th>Username</th>
                             <th>Subjects</th>
                             <th>Action</th>
                         </tr>
@@ -37,7 +38,7 @@
                             <tr>
                                 <td scope="row">{{ $index + 1 }}</td>
                                 <td><a href="{{ route('user.update.index', ['user_id' => $teacher->id]) }}">{{ $teacher->name }}</a></td>
-                                <td>{{ $teacher->email }}</td>
+                                <td>{{ $teacher->username }}</td>
                                 <td>
                                     @if($teacher->is_confirmed)
                                         <a class='btn btn-sm btn-default' href="{{ route('admin.teachers.subjects', ['teacher_id' => $teacher->id]) }} "><i class='fa fa-list'></i> View Subjects</a>

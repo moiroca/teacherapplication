@@ -36,6 +36,11 @@
                                 <td>{{ $exam->exam_item_count }}</td>
                                 <td>
                                     <a class='btn btn-info btn-sm' href="{{ route('exams.subjects.exam_list.result', ['subject_id' => $exam->subject_id, 'exam_id' => $exam->id]) }}"><i class='fa fa-bullhorn'></i> View Result</a>
+                                    @if(!$exam->allow_review)
+                                        <button data-id="{{ $exam->id }}" class='btn btn-sm btn-success allow-review'><i class='fa fa-eye'></i> Allow Review</button>
+                                    @else
+                                        <button data-id="{{ $exam->id }}" class='btn btn-sm btn-warning allow-review'><i class='fa fa-eye'></i> Disable Review</button>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -59,4 +64,20 @@
     <script src="{{ asset('datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('datatables.net-responsive-bs/js/responsive.bootstrap.js') }}"></script>
     <script src="{{ asset('datatables.net-scroller/js/dataTables.scroller.min.js') }}"></script>
+
+    <script type="text/javascript">
+        $('button.allow-review').on('click', function () {
+            var btn = $(this);
+
+            $.post({
+                url : "{{ route('quizzes.allow_review') }}",
+                data : {
+                    _token : "{{ csrf_token() }}",
+                    quiz_id : $(btn).attr('data-id')
+                }
+            }, function (response) {
+                window.location.reload();
+            });
+        });
+    </script>
 @endpush

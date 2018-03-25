@@ -17,11 +17,7 @@
             </div>
     		{!! BootForm::text('name', 'Name', $user->name, ['placeholder' => 'Full Name']) !!}
 
-            {!! BootForm::email('email', 'Email', $user->email, ['placeholder' => 'Email']) !!}
-
-            {!! BootForm::password('password', 'Password', ['placeholder' => 'Password']) !!}
-
-            {!! BootForm::password('password_confirmation', 'Password confirmation', ['placeholder' => 'Confirmation']) !!}
+            {!! BootForm::text('username', 'Username', $user->username, ['placeholder' => 'Username']) !!}
 
             {!! BootForm::select('is_confirmed', 'Confirmation', [1 => 'Confirm', 0 => 'Un Confirm'], $user->is_confirmed) !!}
 

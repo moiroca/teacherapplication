@@ -15,7 +15,7 @@ class UpdateColumnInStudentQuizAnswersTable extends Migration
     {
         Schema::table('student_quiz_answers', function (Blueprint $table) {
             $table->dropColumn('quiz_option_id');
-            $table->string('answer');
+            $table->string('answer')->nullable();
         });
     }
 

@@ -71,4 +71,27 @@ class AttendanceController extends Controller
     					->with('isSuccess', false);
     	}
     }
+
+    public function toggle(Request $request, $attendance_id)
+    {
+        $attendance = Attendance::find($attendance_id);
+        $student_id = $request->get('student_id');
+        $value      = $request->get('value');
+        $data       = [
+            'student_id'    => $student_id,
+            'attendance_id' => $attendance->id
+        ];
+
+        $studentAttendance = StudentAttendance::where($data)->first();
+
+        if ($studentAttendance) {
+            $studentAttendance->delete();
+        } else {
+            StudentAttendance::create($data);
+        }
+
+        return response()->json([
+            'success'   => true
+        ]);
+    }
 }

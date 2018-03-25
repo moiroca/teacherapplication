@@ -14,8 +14,8 @@
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout');
 
-Route::get('/dynamic', function () {
-	return view('dynamic');
+Route::get('/matches', function () {
+	return view('quiz.items.match');
 });
 
 Route::get('/', [
@@ -29,9 +29,19 @@ Route::group(['prefix' => 'announcements'], function () {
 		'uses'	=> 'AnnouncementController@index'
 	]);
 
-	Route::get('/announcements/{module_id}', [
-		'as'	=> 'announcements.download',
-		'uses'	=> 'AnnouncementController@download'
+	Route::get('/{subject_id}', [
+		'as'	=> 'announcements.list',
+		'uses'	=> 'AnnouncementController@list'
+	]);
+
+	Route::get('/{subject_id}/create', [
+		'as'	=> 'announcements.create',
+		'uses'	=> 'AnnouncementController@create'
+	]);
+
+	Route::post('/{subject_id}/create', [
+		'as'	=> 'announcements.save',
+		'uses'	=> 'AnnouncementController@save'
 	]);
 });
 
@@ -104,6 +114,11 @@ Route::group(['prefix' => 'attendance'], function () {
 	Route::get('/{attendance_id}', [
 		'as'	=> 'attendance.index',
 		'uses'	=> 'AttendanceController@show'
+	]);
+
+	Route::post('/{attendance_id}/toggle', [
+		'as'	=> 'attendance.toggle',
+		'uses'	=> 'AttendanceController@toggle'
 	]);
 });
 
@@ -182,6 +197,16 @@ Route::group([ 'prefix' => 'students'], function () {
 		'uses'	=> 'Student\QuizController@answer'
 	]);
 
+	Route::get('/quiz-attempts/{quiz_id}/result', [
+		'as'	=> 'students.quiz_atempts.result',
+		'uses'	=> 'Student\QuizController@viewQuizAttemptsResult'
+	]);
+
+	Route::get('/quiz-attempts/{quiz_id}/student/{student_id}/result', [
+		'as'	=> 'students.quiz_atempts.student.result',
+		'uses'	=> 'QuizController@subjectsQuizResultsPerStudent'
+	]);
+
 	Route::get('/quizzes/{student_quiz_id}/score', [
 		'as'	=> 'students.quizzes.score',
 		'uses'	=> 'Student\QuizController@score'
@@ -190,6 +215,11 @@ Route::group([ 'prefix' => 'students'], function () {
 	Route::get('/subjects', [
 		'as'	=> 'students.subjects',
 		'uses'	=> 'Student\SubjectController@index'
+	]);
+
+	Route::get('/subjects/list', [
+		'as'	=> 'students.subjects.list',
+		'uses'	=> 'Student\SubjectController@enrollSubjects'
 	]);
 });
 
@@ -204,6 +234,11 @@ Route::group(['prefix' => 'enrollment'], function () {
 		'uses'	=> 'EnrollmentController@save'
 	]);
 
+	Route::post('/student/{subject_id}', [
+		'as'	=> 'enrollment.student.subject.save',
+		'uses'	=> 'EnrollmentController@saveStudentEnrollment'
+	]);
+
 	Route::post('/delete/{subject_id}', [
 		'as'	=> 'enrollment.subject.delete',
 		'uses'	=> 'EnrollmentController@delete'
@@ -216,6 +251,11 @@ Route::group(['prefix' => 'modules'], function () {
 		'uses'	=> 'SubjectModuleController@create'
 	]);
 
+	Route::get('/subjects/list', [
+		'as'	=> 'modules.index',
+		'uses'	=> 'SubjectModuleController@list'
+	]);
+
 	Route::get('/{subject_id}/list', [
 		'as'	=> 'modules.subject.index',
 		'uses'	=> 'SubjectModuleController@index'
@@ -224,6 +264,11 @@ Route::group(['prefix' => 'modules'], function () {
 	Route::post('/{subject_id}', [
 		'as'	=> 'modules.subject.save',
 		'uses'	=> 'SubjectModuleController@save'
+	]);
+
+	Route::get('/download/{module_id}', [
+		'as'	=> 'modules.download',
+		'uses'	=> 'SubjectModuleController@download'
 	]);
 });
 
@@ -241,6 +286,11 @@ Route::group(['prefix' => 'quizzes'], function () {
 	Route::get('/subjects/{subject_id}/{exam_id}', [
 		'as' 	=> 'quizzes.subjects.exam_list.result',
 		'uses'  => 'QuizController@subjectsQuizResults'
+	]);
+
+	Route::post('/allow-review', [
+		'as' 	=> 'quizzes.allow_review',
+		'uses'  => 'QuizController@quizAllowReview'
 	]);
 });
 
@@ -298,6 +348,16 @@ Route::group(['prefix' => 'admin'], function () {
 		'uses'	=> 'Admin\TeacherController@index'
 	]);
 
+	Route::get('/teachers/create', [
+		'as'	=> 'admin.teachers.create',
+		'uses'	=> 'Admin\TeacherController@create'
+	]);
+
+	Route::post('/teachers/create', [
+		'as'	=> 'admin.teachers.save',
+		'uses'	=> 'Admin\TeacherController@save'
+	]);
+
 	Route::get('/teachers/{teacher_id}/subjects', [
 		'as'	=> 'admin.teachers.subjects',
 		'uses'	=> 'Admin\TeacherController@subjects'
@@ -307,4 +367,14 @@ Route::group(['prefix' => 'admin'], function () {
 Route::post('/publish', [
 	'as'	=> 'activity.publish',
 	'uses'	=> 'ActivityController@publish'
+]);
+
+Route::post('/force-submit', [
+	'as'	=> 'activity.force_submit',
+	'uses'	=> 'ActivityController@forceSubmit'
+]);
+
+Route::post('/activity-duration', [
+	'as'	=> 'activity.duration.update',
+	'uses'	=> 'ActivityController@updateActivityDuration'
 ]);

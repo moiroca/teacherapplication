@@ -81,8 +81,8 @@ class LoginController extends Controller
 
     public function checkIfUserIsConfirmed(Request $request)
     {
-    	$email = $request->get('email');
-    	$user = User::where('email', $email)->first();
+    	$username = $request->get('username');
+    	$user = User::where('username', $username)->first();
 
     	if ($user) {
     		return $user->isConfirmed() ? 1 : 0;
@@ -90,5 +90,15 @@ class LoginController extends Controller
 
     	// Not Registered
     	return 3;
+    }
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return 'username';
     }
 }

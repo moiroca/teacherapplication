@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\Models\Attempt;
 use App\Models\Subject;
 use App\Models\Quiz;
 use App\Models\QuizItem;
@@ -64,9 +65,18 @@ class ExamController extends Controller
     		$exam = Quiz::create([
 	    		'title'			=> $request->get('title'),
 	    		'subject_id'	=> $request->get('subject_id'),
-                'quiz_type'     => $request->get('type')
+                'quiz_type'     => $request->get('type'),
+                'duration'      => $request->get('duration'),
+                'expiration'    => $request->get('expiration')
 	    	]);
 
+    		$attempts = $request->get('attempts');
+
+    		for ($i=1; $i <= $attempts ; $i++) { 
+                Attempt::create([
+                    'quiz_id'   => $exam->id
+                ]);
+            }
 	    	return redirect()->route('exams.items.create', [ 'exam_id' => $exam->id ])->with('isSuccess', true);
     	} catch (\Exception $e) {
     		return redirect()->route('exams.items.create', [ 'exam_id' => $exam->id ])->with('isSuccess', false);
@@ -125,7 +135,7 @@ class ExamController extends Controller
 		$subject = Subject::find($subject_id);
 
 		$exams  = \DB::table('quizzes')
-						->selectRaw(\DB::raw("quizzes.title, quizzes.id, quizzes.subject_id, quiz_count_table.exam_item_count"))
+						->selectRaw(\DB::raw("quizzes.title, quizzes.id, quizzes.allow_review, quizzes.subject_id, quiz_count_table.exam_item_count"))
 						->join(\DB::raw('
 							(
 								SELECT 
@@ -150,47 +160,47 @@ class ExamController extends Controller
 		$subject = Subject::with('students')->find($subject_id);
 		$enrolledStudents = $subject->students;
 
-		$studentExamResult = \DB::table(\DB::raw('users'))
-								->leftJoin(\DB::raw('(
-									SELECT 
-										users.id as student_id, student_quizzes.id as student_quiz_id from users
-									LEFT JOIN 
-										student_quizzes on student_quizzes.student_id = users.id
-									WHERE 
-										student_quizzes.quiz_id = '.$exam->id.'
-								) as students_took_the_quizzes'), 'students_took_the_quizzes.student_id', '=', 'users.id')
-								->leftJoin(\DB::raw('(
-									SELECT 
-										student_quiz_answers.student_quiz_id as student_quiz_id,
-										sum(if(question_answers.correct_answer = student_quiz_answers.answer, 1, 0)) as total
-									FROM (
-										SELECT
-											quiz_items.id as exam_item_id,
-											if (quiz_items.quiz_item_type = 1, quiz_options.content, quiz_options.id) as correct_answer
-										FROM
-											quiz_items
-										LEFT JOIN
-											quiz_options on quiz_items.id = quiz_options.quiz_item_id
-										JOIN
-											quiz_items_pivot on quiz_items_pivot.item_id = quiz_items.id 
-										WHERE
-											quiz_options.is_correct = 1
-										AND
-											quiz_items_pivot.quiz_id = '. $exam->id .'
-									) AS question_answers 
-									LEFT JOIN 
-										`student_quiz_answers` ON `student_quiz_answers`.`quiz_item_id` = `question_answers`.`exam_item_id` 
-									GROUP BY student_quiz_answers.student_quiz_id
-								) as total_score'), 'total_score.student_quiz_id', '=', 'students_took_the_quizzes.student_quiz_id')
-								->selectRaw('
-									users.id as student_id,
-									users.name as student_name,
-									students_took_the_quizzes.student_quiz_id as student_quiz_id,
-									total_score.total AS score 
-								')
-								->whereIn('users.id', $enrolledStudents->pluck('id'))
-								->get();
+		// $studentExamResult = \DB::table(\DB::raw('users'))
+		// 						->leftJoin(\DB::raw('(
+		// 							SELECT 
+		// 								users.id as student_id, student_quizzes.id as student_quiz_id from users
+		// 							LEFT JOIN 
+		// 								student_quizzes on student_quizzes.student_id = users.id
+		// 							WHERE 
+		// 								student_quizzes.quiz_id = '.$exam->id.'
+		// 						) as students_took_the_quizzes'), 'students_took_the_quizzes.student_id', '=', 'users.id')
+		// 						->leftJoin(\DB::raw('(
+		// 							SELECT 
+		// 								student_quiz_answers.student_quiz_id as student_quiz_id,
+		// 								sum(if(question_answers.correct_answer = student_quiz_answers.answer, 1, 0)) as total
+		// 							FROM (
+		// 								SELECT
+		// 									quiz_items.id as exam_item_id,
+		// 									if (quiz_items.quiz_item_type = 1, quiz_options.content, quiz_options.id) as correct_answer
+		// 								FROM
+		// 									quiz_items
+		// 								LEFT JOIN
+		// 									quiz_options on quiz_items.id = quiz_options.quiz_item_id
+		// 								JOIN
+		// 									quiz_items_pivot on quiz_items_pivot.item_id = quiz_items.id 
+		// 								WHERE
+		// 									quiz_options.is_correct = 1
+		// 								AND
+		// 									quiz_items_pivot.quiz_id = '. $exam->id .'
+		// 							) AS question_answers 
+		// 							LEFT JOIN 
+		// 								`student_quiz_answers` ON `student_quiz_answers`.`quiz_item_id` = `question_answers`.`exam_item_id` 
+		// 							GROUP BY student_quiz_answers.student_quiz_id
+		// 						) as total_score'), 'total_score.student_quiz_id', '=', 'students_took_the_quizzes.student_quiz_id')
+		// 						->selectRaw('
+		// 							users.id as student_id,
+		// 							users.name as student_name,
+		// 							students_took_the_quizzes.student_quiz_id as student_quiz_id,
+		// 							total_score.total AS score 
+		// 						')
+		// 						->whereIn('users.id', $enrolledStudents->pluck('id'))
+		// 						->get();
 
-		return view('exams.outputs.result', compact('studentExamResult', 'exam'));
+		return view('exams.outputs.result', compact('enrolledStudents', 'exam'));
 	}
 }
