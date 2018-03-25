@@ -30,7 +30,7 @@
                             <th>Name <small>(Click Name To Update)</small></th>
                             <th>Username</th>
                             <th>Subjects</th>
-                            <th>Action</th>
+                            <!-- <th>Action</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -46,14 +46,14 @@
                                         <span class='label label-info'>N/A</span>
                                     @endif
                                 </td>
-                                <td colspan=2>
+                                <!-- <td colspan=2>
                                     @if($teacher->is_confirmed)
                                         <button data-id="{{ $teacher->id }}" data-confirm="0" type='submit' class='confirm btn btn-warning btn-sm' href="#"><i class='fa fa-mortar-board'></i> Un Confirm</button>
                                     @else
                                         <button data-id="{{ $teacher->id }}" data-confirm="1" type='submit' class='confirm btn btn-primary btn-sm' href="#"><i class='fa fa-save'></i> Confirm</button>
                                         <button data-id="{{ $teacher->id }}" type='button' class='delete-user btn btn-danger btn-sm' href="javascript:void(0)"><i class='fa fa-trash'></i> Delete</button>
                                     @endif
-                                </td>
+                                </td> -->
                             </tr>
                         @endforeach
                     </tbody>
