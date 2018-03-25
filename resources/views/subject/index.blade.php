@@ -57,7 +57,7 @@
                                 </td>
                                 <td>
                                     <a class='btn btn-default btn-sm' href="{{ route('modules.subject.index', ['subject_id' => $subject->id]) }}"> 
-                                        <i class='fa fa-bullhorn'></i> View Announcements
+                                        <i class='fa fa-bullhorn'></i> View Modules
                                     </a> 
                                     <a data-id="{{ $subject->id }}" class="delete-subject btn btn-warning btn-sm" href="javascript:void(0)">
                                       <i class='fa fa-trash'></i> Delete Subject
