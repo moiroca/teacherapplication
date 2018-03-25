@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\ModelSeeders::class,
+        \App\Console\Commands\SeedStudent::class
     ];
 
     /**

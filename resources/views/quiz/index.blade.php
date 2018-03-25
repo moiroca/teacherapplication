@@ -31,6 +31,7 @@
                     <thead>
                         <tr>
                             <th>Title</th>
+                            <th>Period</th>
                             <th>Duration <small>(Click duration to edit)</small></th>
                             <th>Attempts</th>
                             <th>Status</th>
@@ -44,6 +45,7 @@
                                     <a href="{{ route('quiz.items.create', $quiz->id) }}">{{ $quiz->title }}
                                     </a>
                                 </td>
+                                <td> {{ config('app.periods')[$quiz->period] }} </td>
                                 <td>
                                     <span class='duration'>
                                         {{ $quiz->duration }}

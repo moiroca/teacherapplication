@@ -1,7 +1,7 @@
 <div class="col-md-3 left_col">
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
-            <a href="{{ url('/') }}" class="site_title"><i class="fa fa-university"></i> <span>{{ config('app.initial') }}</span></a>
+            <a href="{{ url('/') }}" class="site_title"><img src="{{ asset('aclc-logo/45x45.png') }}" alt="ACLC"> <span>{{ config('app.initial') }}</span></a>
         </div>
         
         <div class="clearfix"></div>
@@ -85,7 +85,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('announcements.students.index') }}">
+                            <a href="{{ route('modules.students.index') }}">
                                 <i class="fa fa-file"></i>
                                 Modules
                             </a>

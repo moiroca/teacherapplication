@@ -64,6 +64,7 @@ class ExamController extends Controller
 		try {
     		$exam = Quiz::create([
 	    		'title'			=> $request->get('title'),
+	    		'period'		=> $request->get('period'),
 	    		'subject_id'	=> $request->get('subject_id'),
                 'quiz_type'     => $request->get('type'),
                 'duration'      => $request->get('duration'),

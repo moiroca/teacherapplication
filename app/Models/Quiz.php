@@ -20,7 +20,7 @@ class Quiz extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'subject_id', 'quiz_type', 'status', 'duration', 'expiration', 'allow_review'
+        'title', 'subject_id', 'quiz_type', 'status', 'duration', 'expiration', 'allow_review', 'period'
     ];
 
     public $timestamps = false;

@@ -23,6 +23,18 @@
     				<input name="title" type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
     			</div>
     		</div>
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="period">
+                    Period <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <select name="period" id="period" required="required" class="form-control col-md-7 col-xs-12">
+                        @foreach(config('app.periods') as $index => $period)
+                            <option value="{{ $index }}"> {{ $period }} </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
     		<div class="form-group">
     			<label for="subject" class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
     				Subject <span class="required">*</span>

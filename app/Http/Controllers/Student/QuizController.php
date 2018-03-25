@@ -92,10 +92,10 @@ class QuizController extends Controller
         } else {
             $attempt = $this->getLatestQuizAttempt($quiz_id, $quizAttemptIds);
             // Uncomment Later
-            $end_datetime = \Carbon\Carbon::now()->addHours($quiz->duration);
+            // $end_datetime = \Carbon\Carbon::now()->addHours($quiz->duration);
 
             // For Debugging
-            // $end_datetime = \Carbon\Carbon::now()->addSeconds(10);
+            $end_datetime = \Carbon\Carbon::now()->addSeconds(10);
             $studentQuizData['end_datetime'] = $end_datetime;
         }
 

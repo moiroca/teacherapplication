@@ -29,7 +29,6 @@
                             <td>Enrollment Key</td>
                             <td>School Year</td>
                             <td>Semester</td>
-                            <td>Period</td>
                             <th>Total Student Count</th>
                             <th>Action</th>
                         </tr>
@@ -46,9 +45,6 @@
                                 </td>
                                 <td>
                                     {{ config('app.semesters')[$subject->semester] }}
-                                </td>
-                                <td>
-                                    {{ config('app.periods')[$subject->period] }}
                                 </td>
                                 <td>
                                     <?php $studentCount = $subject->students->count(); ?>

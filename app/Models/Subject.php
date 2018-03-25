@@ -18,7 +18,7 @@ class Subject extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'teacher_id', 'school_year_id', 'semester', 'period', 'enrollment_key'
+        'name', 'teacher_id', 'school_year_id', 'semester', 'enrollment_key'
     ];
 
     public $timestamps = false;

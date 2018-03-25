@@ -10,8 +10,16 @@ class StudentController extends Controller
 {
     public function index(Request $request)
     {
-    	$students = User::where('role', 2)->orderBy('is_confirmed', 'DESC')->get();
+    	$student_id = $request->get('student_id');
 
-    	return view('admin.students.list', compact('students'));
+    	$students = User::where('role', 2)->orderBy('is_confirmed', 'DESC');
+
+    	if ($student_id) {
+    		$students = $students->where('username', 'like', "%$student_id%");
+    	}
+
+    	$students = $students->paginate(10);
+
+    	return view('admin.students.list', compact('students', 'student_id'));
     }
 }

@@ -19,19 +19,27 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>Students<small> List of all students.</small></h2>
+                <form action="{{ route('admin.students') }}" class="form-inline pull-right">
+                    <div class="input-group">
+                        <input name="student_id" class="form-control" type="text" placeholder="Enter Student ID">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-info"><i class='fa fa-search'></i></button>
+                        </span>
+                    </div>
+                </form>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-                    <thead>
+                <table class="table table-striped table-bordered">
+                      <thead>
                         <tr>
                             <th>#</th>
                             <th>Name <small>(Click Name To Update)</small></th>
                             <th>Username</th>
                             <th>Action</th>
                         </tr>
-                    </thead>
-                    <tbody>
+                      </thead>
+                      <tbody>
                         @foreach($students as $index => $student)
                             <tr>
                                 <td scope="row">{{ $index + 1 }}</td>
@@ -47,8 +55,11 @@
                                 </td>
                             </tr>
                         @endforeach
-                    </tbody>
-                </table>
+                      </tbody>
+                    </table>
+                    <span class="pull-right">
+                        {{ $students->appends(['student_id' => $student_id])->links() }}
+                    </span>
             </div>
         </div>
     </div>

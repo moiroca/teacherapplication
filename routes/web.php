@@ -187,6 +187,16 @@ Route::group([ 'prefix' => 'students'], function () {
 		'uses'	=> 'Student\AnnouncementController@index'
 	]);
 
+	Route::get('/modules', [
+		'as'	=> 'modules.students.index',
+		'uses'	=> 'Student\ModuleController@index'
+	]);
+
+	Route::get('/modules/{subject_id}', [
+		'as'	=> 'modules.students.subject.index',
+		'uses'	=> 'Student\ModuleController@subjectModules'
+	]);
+
 	Route::get('/announcements/{subject_id}', [
 		'as'	=> 'announcements.students.show',
 		'uses'	=> 'Student\AnnouncementController@list'
@@ -348,6 +358,7 @@ Route::group(['prefix' => 'exams'], function () {
 });
 
 Route::group(['prefix' => 'admin'], function () {
+
 	Route::get('/students', [
 		'as'	=> 'admin.students',
 		'uses'	=> 'Admin\StudentController@index'

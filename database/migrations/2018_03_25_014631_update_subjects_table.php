@@ -16,7 +16,6 @@ class UpdateSubjectsTable extends Migration
         Schema::table('subjects', function (Blueprint $table) {
             $table->unsignedInteger('school_year_id');
             $table->integer('semester');
-            $table->integer('period');
 
             $table->foreign('school_year_id')
                     ->references('id')
@@ -36,7 +35,6 @@ class UpdateSubjectsTable extends Migration
 
             $table->dropColumn('school_year_id');
             $table->dropColumn('semester');
-            $table->dropColumn('period');
         });
     }
 }

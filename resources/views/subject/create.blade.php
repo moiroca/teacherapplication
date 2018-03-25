@@ -44,18 +44,6 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-12 3 col-sm-12 col-xs-12" for="first-name">
-                                Period <span class="required">*</span>
-                            </label>
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <select name="period" id="period" required="required" class="form-control col-md-7 col-xs-12">
-                                    @foreach(config('app.periods') as $index => $period)
-                                        <option value="{{ $index }}"> {{ $period }} </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-12 3 col-sm-12 col-xs-12" for="first-name">
                                 Title <span class="required">*</span>
                             </label>
                             <div class="col-md-12 col-sm-12 col-xs-12">

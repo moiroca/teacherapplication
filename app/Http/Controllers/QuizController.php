@@ -69,6 +69,7 @@ class QuizController extends Controller
             $attempts = $request->get('attempts');
 
             $quiz = Quiz::create([
+                'period'        => $request->get('period'),
                 'title'         => $request->get('title'),
                 'subject_id'    => $request->get('subject_id'),
                 'quiz_type'     => $request->get('type'),

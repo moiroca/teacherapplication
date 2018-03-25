@@ -25,7 +25,7 @@
             <section class="login_content">
 				{!! BootForm::open(['url' => url('/login'), 'method' => 'post']) !!}
                 
-                
+                <img src="{{ asset('aclc-logo/150x150.png') }}" alt="ACLC">
 				<h4>{{ config('app.name') }} Login</h4>
 			
 				{!! BootForm::text('username', 'Username', old('username'), ['placeholder' => 'Username', 'afterInput' => '<span>test</span>'] ) !!}

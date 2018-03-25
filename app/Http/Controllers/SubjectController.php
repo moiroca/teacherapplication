@@ -46,7 +46,6 @@ class SubjectController extends Controller
                 'teacher_id'        => Auth::user()->id,
                 'school_year_id'    => $request->get('school_year'),
                 'semester'          => $request->get('semester'),
-                'period'            => $request->get('period'),
                 'enrollment_key'    => uniqid()
             ]);
 

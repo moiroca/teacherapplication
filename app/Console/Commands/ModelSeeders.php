@@ -140,7 +140,6 @@ class ModelSeeders extends Command
                     'teacher_id'        => $teacher->id,
                     'school_year_id'    => 1,
                     'semester'          => 1,
-                    'period'            => 1,
                     'enrollment_key'    => uniqid()
                 ]);
                 echo '.';
@@ -160,6 +159,7 @@ class ModelSeeders extends Command
             'status'    => Quiz::PUBLISHED,
             'duration' => 3,
             'expiration' => $expiration,
+            'period'     => 1
         ];
 
         $quizItems = [

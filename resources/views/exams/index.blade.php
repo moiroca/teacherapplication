@@ -32,6 +32,7 @@
                     <thead>
                         <tr>
                             <th>Title</th>
+                            <th>Period</th>
                             <th>Duration <small>(Click Duration To Edit)</small></th>
                             <th>Status</th>
                             <th>Subject</th>
@@ -41,6 +42,7 @@
                         @foreach($exams as $index => $exam)
                             <tr>
                                 <td><a href="{{ route('exams.items.create', $exam->id) }}">{{ $exam->title }}</a></td>
+                                <td> {{ config('app.periods')[$exam->period] }} </td>
                                 <td>
                                     <span class='duration'>
                                         {{ $exam->duration }}

@@ -15,8 +15,16 @@ class CreateSubjectModules extends Migration
     {
         Schema::create('subject_modules', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('subject_id');
-            $table->integer('module_id');
+            $table->unsignedInteger('subject_id');
+            $table->unsignedInteger('module_id');
+
+            $table->foreign('subject_id')
+                ->references('id')
+                ->on('subjects');
+
+            $table->foreign('module_id')
+                ->references('id')
+                ->on('modules');
         });
     }
 
@@ -27,6 +35,11 @@ class CreateSubjectModules extends Migration
      */
     public function down()
     {
+        Schema::table('subject_modules', function (Blueprint $table) {
+            $table->dropForeign('subject_modules_subject_id_foreign');
+            $table->dropForeign('subject_modules_module_id_foreign');
+        });
+
         Schema::drop('subject_modules');
     }
 }
