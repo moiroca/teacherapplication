@@ -86,8 +86,8 @@
                         </li>
                         <li>
                             <a href="{{ route('announcements.students.index') }}">
-                                <i class="fa fa-bullhorn"></i>
-                                Announcements
+                                <i class="fa fa-file"></i>
+                                Modules
                             </a>
                         </li>
                         <li>

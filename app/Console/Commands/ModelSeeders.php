@@ -160,7 +160,6 @@ class ModelSeeders extends Command
             'status'    => Quiz::PUBLISHED,
             'duration' => 3,
             'expiration' => $expiration,
-            'title'     => 'Quiz '
         ];
 
         $quizItems = [
@@ -176,7 +175,7 @@ class ModelSeeders extends Command
 
         foreach ($subjects as $key => $subject) {
             $quizData['subject_id'] = $subject->id;
-            $quizData['title']      = $quizData['title'] . " " . ($key + 1);
+            $quizData['title']      = "Quiz " . " " . ($key + 1);
 
             $quiz = Quiz::create($quizData);
 

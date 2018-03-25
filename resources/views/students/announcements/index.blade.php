@@ -30,8 +30,9 @@
                             <tr>
                                 <td>{{ $subject->name }}</td>
                                 <td>
-                                    <a class='btn btn-info btn-sm' href="{{ route('announcements.students.show', ['subject_id' => $subject->id]) }}">
-                                        <i class='fa fa-bullhorn'></i> View Announcements
+                                    <!-- <a class='btn btn-info btn-sm' href="{{ route('announcements.students.show', ['subject_id' => $subject->id]) }}"> -->
+                                    <a class='btn btn-info btn-sm' href="#">
+                                        <i class='fa fa-bullhorn'></i> View Modules
                                     </a>
                                 </td>
                             </tr>

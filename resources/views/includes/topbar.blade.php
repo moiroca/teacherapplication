@@ -14,7 +14,7 @@
                         <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
-                        @if(\Auth::user()->isTeacher())
+                        @if(\Auth::user()->isTeacher() || !\Auth::user()->isAdmin())
                             <li>
                                 <a href="{{ route('update.user.create') }}">Profile</a>
                             </li>
