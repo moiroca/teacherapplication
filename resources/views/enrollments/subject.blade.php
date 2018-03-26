@@ -26,7 +26,7 @@
                       <tr>
                         <th>#</th>
                         <th>Name</th>
-                        <th>Email</th>
+                        <th>Username</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -35,7 +35,7 @@
                     <tr>
                         <td>{{ $index + 1}}</td>
                         <td>{{ $student->name }}</td>
-                        <td>{{ $student->email }}</td>
+                        <td>{{ $student->username }}</td>
                         <td>
                             <input type="hidden" id="subject_id" name="subject_id" value="{{ $subject->id }}">
                             @if($student->is_enrolled)

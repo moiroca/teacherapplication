@@ -49,7 +49,7 @@ class SeedStudent extends Command
                 User::create([
                     'username'      => $student->{config('aclc.column')},
                     'role'          => 2,
-                    'is_confirmed'  => 1
+                    'is_confirmed'  => 0
                 ]);
 
                 echo ".";

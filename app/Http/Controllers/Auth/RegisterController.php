@@ -68,6 +68,7 @@ class RegisterController extends Controller
         $student = User::where(['username' => $data['student_id']])->first();
 
         $student->name      = $data['name'];
+        $student->is_confirmed = 1;
         $student->password  = bcrypt($data['password']);
 
         $student->update();

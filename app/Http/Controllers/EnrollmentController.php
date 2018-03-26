@@ -16,7 +16,7 @@ class EnrollmentController extends Controller
 		$students = \DB::table('users')
 					->selectRaw('
 						users.id,
-						users.email, 
+						users.username, 
 						users.name, 
 						count(student_subjects.subject_id) as is_enrolled
 					')
@@ -24,6 +24,7 @@ class EnrollmentController extends Controller
 						(SELECT * from student_subjects where student_subjects.subject_id = ' . $subject->id . ') as student_subjects 
 					)'), 'student_subjects.student_id', '=', 'users.id')
 					->where('users.role', 2)
+					->where('users.is_confirmed', 1)
 					->groupBy('users.id')
 					->orderBy('is_enrolled', "DESC")
 					->get();
