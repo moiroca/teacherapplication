@@ -66,6 +66,20 @@ return [
             'engine' => null,
         ],
 
+        'aclc' => [
+            'driver' => 'mysql',
+            'host' => env('ACLC_DB_HOST', 'localhost'),
+            'port' => env('ACLC_DB_PORT', '3306'),
+            'database' => env('ACLC_DB_DATABASE', 'forge'),
+            'username' => env('ACLC_DB_USERNAME', 'forge'),
+            'password' => env('ACLC_DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', 'localhost'),
