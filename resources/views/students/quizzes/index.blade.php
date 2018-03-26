@@ -38,7 +38,7 @@
                             ?>
                             <tr>
                                 <td>
-                                    <strong>{{ $quiz->title }} </strong> <small>Duration : {{ $quiz->duration }} Hour(s)</small>
+                                    <strong>{{ $quiz->title }} </strong> <small>Duration : {{ $quiz->duration }} {{ (1 == $quiz->time) ? 'Hour(s)' : 'Minute(s)' }}</small>
                                 </td>
                                 <td>
                                     @if($quizExpiration->lt($now))

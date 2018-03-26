@@ -46,6 +46,7 @@ class QuizController extends Controller
                             quizzes.id, 
                             quizzes.title,
                             quizzes.expiration,
+                            quizzes.time,
                             quizzes.duration,
                             count(attempts.id) as total_attempt
                         ')
@@ -91,11 +92,15 @@ class QuizController extends Controller
             $attempt = Attempt::find($currentAttemptedQuiz->attempt_id);
         } else {
             $attempt = $this->getLatestQuizAttempt($quiz_id, $quizAttemptIds);
-            // Uncomment Later
-            $end_datetime = \Carbon\Carbon::now()->addHours($quiz->duration);
+            
 
-            // For Debugging
-            // $end_datetime = \Carbon\Carbon::now()->addSeconds(10);
+            if (2 == $quiz->time) {
+                $end_datetime = \Carbon\Carbon::now()->addMinutes($quiz->duration);
+            } else {
+                // Uncomment Later
+                $end_datetime = \Carbon\Carbon::now()->addHours($quiz->duration);
+            }
+
             $studentQuizData['end_datetime'] = $end_datetime;
         }
 

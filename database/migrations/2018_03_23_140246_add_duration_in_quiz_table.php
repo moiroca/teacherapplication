@@ -15,6 +15,7 @@ class AddDurationInQuizTable extends Migration
     {
         Schema::table('quizzes', function (Blueprint $table) {
             $table->integer('duration');
+            $table->integer('time')->default(1);
             $table->datetime('expiration');
         });
     }
@@ -28,6 +29,7 @@ class AddDurationInQuizTable extends Migration
     {
         Schema::table('quizzes', function (Blueprint $table) {
             $table->dropColumn('duration');
+            $table->dropColumn('time');
             $table->dropColumn('expiration');
         });
     }

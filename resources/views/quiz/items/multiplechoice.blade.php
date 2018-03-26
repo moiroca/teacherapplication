@@ -88,10 +88,15 @@
                         @forelse($quiz->items as $index => $item)
                             <tr>
                                 <td colspan="2">
-                                    <span data-item-id="{{ $item->id }}" class="{{ ($quiz->isDraft()) ? 'item' : 'quiz_item' }}" data-question="{{ $item->question }}">{{ $item->question }} </span>
+                                    <span 
+                                        data-item-id="{{ $item->id }}" class="{{ ($quiz->isDraft()) ? 'item' : 'quiz_item' }}" data-question="{{ $item->question }}">{{ $item->question }} </span>
                                     <ol>
                                         @foreach($item->options as $option)
-                                            <li data-option-id="{{ $option->id }}" data-correct="{{ $option->is_correct }}" class="item-option" data-content="{{ $option->content }}">
+                                            <li 
+                                                data-option-id="{{ $option->id }}" 
+                                                data-correct="{{ $option->is_correct }}" 
+                                                class="item-option" 
+                                                data-content="{{ $option->content }}">
                                                 @if($option->is_correct)
                                                     {{ $option->content }}  <span class="label label-success">Correct Answer</span>
                                                 @else

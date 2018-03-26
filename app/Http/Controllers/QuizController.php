@@ -74,9 +74,10 @@ class QuizController extends Controller
                 'subject_id'    => $request->get('subject_id'),
                 'quiz_type'     => $request->get('type'),
                 'duration'      => $request->get('duration'),
+                'time'          => $request->get('time'),
                 'expiration'    => $request->get('expiration')
             ]);
-
+            
             for ($i=1; $i <= $attempts ; $i++) { 
                 Attempt::create([
                     'quiz_id'       => $quiz->id,

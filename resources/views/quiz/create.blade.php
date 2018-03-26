@@ -69,10 +69,22 @@
             </div>
             <div class="form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
-                    Duration <span class="required">* (In Hours)</span>
+                    Duration <span class="required">*</span>
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input placeholder="Duration in Hours" name="duration" type="number" min=1 max=10 id="duration" required="required" class="form-control col-md-7 col-xs-12">
+                    <input placeholder="Enter Duration" name="duration" type="number" min=1 max=10 id="duration" required="required" class="form-control col-md-7 col-xs-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="subject" class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
+                    Unit of Measure <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <select name='time' id="heard" class="form-control col-md-7 col-xs-12" required>
+                        <option value="">Choose Time..</option>
+                            <option value="1">Hours</option>
+                            <option value="2">Minutes</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
